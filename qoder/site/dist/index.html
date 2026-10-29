@@ -183,7 +183,7 @@
 $ bash qoder/scripts/sb.sh ingest --src qoder/corpus_demo
 [started 2026-10-30T02:11:46+08:00]
 已索引 12 篇文档、96 个块
-库：/home/vertin/sb-run/.runtime/sb.db
+库：/home/&lt;user&gt;/sb-run/.runtime/sb.db
 [exit=0 finished 2026-10-30T02:11:57+08:00]
 
 <span class="term-dim"># ② 索引规模与词项统计</span>
@@ -230,14 +230,14 @@ $ studybench task resume t-qoder
 最近版本：r1@2026-10-30T03:01:06+08:00 → r2@2026-10-30T03:01:07+08:00
 
 <span class="term-dim"># ⑤ 周报：确定性四段模板</span>
+$ studybench digest --week 2026-W44 --tasks corpus_demo/_tasks/tasks.json --pc-db /tmp/sb-demo-pc.db
+# 学研台周报 2026-W44（2026-10-26 ~ 2026-11-01）
+## 本周完成
+- 生态题提交与站点发布（t-qoder · 竞赛 · due 2026-11-02）：引擎与站点跑通
+- 整理排序算法笔记并完成自测（t-sb-001 · 数据结构 · due 2026-10-21）：整理八种排序对比表；手写快排、归并与堆排序实现；默写两个稳定性反例序列
+- 二维随机变量习题集一轮（t-sb-002 · 概率论 · due 2026-10-25）：边缘密度与独立性判定练习；卷积公式与函数分布大题
+- 扭摆法实验报告：数据处理与不确定度（t-sb-003 · 物理实验 · due 2026-10-31）：完成 10 组周期测量（示例数据）；标定扭转常数 K 与载物盘 I0
 - OceanBase 大赛复赛提交（t-sb-004 · 竞赛 · due 2026-11-10）：功能自检脚本一键回归；压测基线记录
-- 文献综述初稿：检索式与筛选（t-sb-005 · 科研 · due 2026-10-28）：确定概念块与布尔检索式；完成去重与初筛
-## 进行中
-- 生态题提交与站点发布（t-qoder · 竞赛 · due 2026-11-02）：下一步 发布站点并复核无痕访问
-- 扭摆法实验报告：数据处理与不确定度（t-sb-003 · 物理实验 · due 2026-10-31）：下一步 撰写误差分析小节
-- OceanBase 大赛复赛提交（t-sb-004 · 竞赛 · due 2026-11-10）：下一步 按提交清单逐项勾选
-- 文献综述初稿：检索式与筛选（t-sb-005 · 科研 · due 2026-10-28）：下一步 写主题段初稿
-- 第三范式与 BCNF 判断题专练（t-sb-006 · 数据库 · due 2026-11-05）：下一步 先练函数依赖闭包与候选码求解
 
 <span class="term-dim"># ⑥ 导出站点索引（浏览器端同构打分的数据源）</span>
 $ bash qoder/scripts/sb.sh export --out /mnt/e/CodeX/PowerContext-2026/qoder/records/index_export.json
@@ -304,7 +304,7 @@ $ bash qoder/scripts/sb.sh export --out /mnt/e/CodeX/PowerContext-2026/qoder/rec
   <footer class="site-foot">
     <div class="wrap">
       <p class="foot-brand">学研台 StudyBench</p>
-      <p>仓库：<span class="repo-slot"><a href="https://github.com/Castorice104/PowerContext-2026/tree/2026-competition-ecosystem/qoder" rel="noopener">github.com/Castorice104/PowerContext-2026<span class="foot-dim">（qoder/ 目录 · 团队私有仓库，评审期已授权）</span></a></span> · 许可：MIT</p>
+      <p>仓库：<span class="repo-slot"><a href="https://github.com/Castorice104/PowerContext-2026/tree/2026-competition-ecosystem/qoder" rel="noopener">github.com/Castorice104/PowerContext-2026<span class="foot-dim">（qoder/ 目录 · 私有仓库，如需访问请联系提交者开通）</span></a></span> · 许可：MIT</p>
       <p class="foot-dim">脱敏声明：本站全部内容来自演示语料 qoder/corpus_demo，不含真实姓名、学号、账号、邮箱、手机号或任何个人工作区数据；示例数值均标注为演示数据。</p>
     </div>
   </footer>

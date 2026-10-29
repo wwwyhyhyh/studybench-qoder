@@ -74,7 +74,8 @@ bash qoder/scripts/sb.sh selftest          # = python -m pytest qoder/studybench
 ```
 
 依赖已装好：`pylibseekdb 1.3.0.post4`、`pydantic>=2.10,<3`、`rfc8785`、`typing-extensions`、`pytest 9.2.0`。
-PowerContext 走主仓源码：`PYTHONPATH` 需同时含仓库根（`src/` 在仓库根），`run_in_wsl.sh` 已设置。
+PowerContext 用 **PyPI 官方包** `powercontext[builtin]==1.4.1`（装进同一 venv，`import powercontext` 直接可用；
+`SB_POWERCONTEXT_SRC` 仅作源码覆盖的可选项，正常路径不需要）。
 
 ## 3 seekdb 数据模型（A 实现，B 只读 `tasks` 不碰检索表）
 

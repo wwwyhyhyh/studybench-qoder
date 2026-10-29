@@ -14,6 +14,15 @@ ROOT = Path(__file__).resolve().parents[1]
 LOGS = ROOT / "verification" / "logs"
 TARGETS = [ROOT / "site" / "src" / "index.html", ROOT / "site" / "dist" / "index.html"]
 REPO_URL = "https://github.com/Castorice104/PowerContext-2026/tree/2026-competition-ecosystem/qoder"
+REPO_HTML = (
+    f'<a href="{REPO_URL}" rel="noopener">github.com/Castorice104/PowerContext-2026'
+    '<span class="foot-dim">（qoder/ 目录 · 私有仓库，如需访问请联系提交者开通）</span></a>'
+)
+
+
+def sanitize(text: str) -> str:
+    """把开发机用户名等本机路径泛化，避免站点曝光个人目录。"""
+    return text.replace("/home/vertin", "/home/<user>").replace("C:\\Users\\Lenovo", "C:\\Users\\<user>")
 
 
 def head(path: Path, n: int) -> list[str]:
@@ -40,18 +49,27 @@ def first_query_block(path: Path, keep_hits: int = 3) -> list[str]:
     return out
 
 
+def digest_block(path: Path, keep: int = 10) -> list[str]:
+    """从 memory.log 里取「digest 命令行 + 周报前 keep 行」，不截掉标题。"""
+    lines = head(path, 200)
+    for i, line in enumerate(lines):
+        if line.startswith("$ studybench digest") or line.startswith("$ bash qoder/scripts/sb.sh digest"):
+            return lines[i : i + keep]
+    return lines[-keep:]
+
+
 def build() -> str:
     blocks: list[tuple[str, list[str]]] = [
         ("① 建索引：markdown → seekdb（幂等，可重跑）", head(LOGS / "ingest.log", 5)),
         ("② 索引规模与词项统计", head(LOGS / "index.log", 4)),
         ("③ 中文口语查询 → 全文索引召回 → BM25 重排", first_query_block(LOGS / "search.log", 3)),
         ("④ 任务进度：不可变 revision 链 + 复读续做", head(LOGS / "memory.log", 19)),
-        ("⑤ 周报：确定性四段模板", head(LOGS / "memory.log", 51)[29:40]),
+        ("⑤ 周报：确定性四段模板", digest_block(LOGS / "memory.log", 10)),
         ("⑥ 导出站点索引（浏览器端同构打分的数据源）", head(LOGS / "export.log", 4)),
     ]
     parts: list[str] = []
     for title, lines in blocks:
-        body = "\n".join(html.escape(line) for line in lines if line.strip() != "")
+        body = "\n".join(html.escape(sanitize(line)) for line in lines if line.strip() != "")
         parts.append(
             f'<span class="term-dim"># {html.escape(title)}</span>\n{body}'
         )
@@ -72,16 +90,16 @@ def main() -> None:
             text,
             flags=re.S,
         )
-        new, n2 = re.subn(
-            r"<!-- REPO:REPLACE -->",
-            f'<a href="{REPO_URL}" rel="noopener">github.com/Castorice104/PowerContext-2026'
-            f"<span class=\"foot-dim\">（qoder/ 目录 · 团队私有仓库，评审期已授权）</span></a>",
-            new,
-        )
+        new, n2 = re.subn(r"<!-- REPO:REPLACE -->", REPO_HTML, new)
+        # 幂等：占位已被替换过时，改写既有链接文案
+        if n2 == 0:
+            new, n2 = re.subn(
+                r'<a href="' + re.escape(REPO_URL) + r'" rel="noopener">.*?</a>', REPO_HTML, new, flags=re.S
+            )
         target.write_text(new, encoding="utf-8")
         print(f"{target.relative_to(ROOT)}: logs={n1} repo={n2}")
         if n1 != 1 or n2 != 1:
-            raise SystemExit("占位替换数量异常，请检查模板")
+            raise SystemExit("替换数量异常，请检查模板")
 
 
 if __name__ == "__main__":
