@@ -140,3 +140,17 @@
 
 - 上轮 N-A（下游引用失配）/N1（gate_t4 弱化）/N2（gate_t3 编码）/N3（归因措辞）/N4（截图未跟踪）逐条复核：**N-A ADDRESSED**（sample.md 两处 + README 改内容型引用，行号引用全仓零残留）、**N1 ADDRESSED**（link-href 模式补回且实测可命中）、**N2 ADDRESSED**（encoding='utf-8' 已加，实测 exit 0）、**N3 ADDRESSED**（措辞已改中性，归因细节见 E-2 备注）、**N4 ADDRESSED**（screenshots 3 张已随 8a43c757 入库，git ls-files 实证）。
 - 提醒（范围外，不计入判决）：records/seekdb-query-record.md:5 等记录头部仍含 WSL 用户名路径 `/home/vertin/...`——本提交未触碰，系上轮 M1 只对站点脱敏、未覆盖 records/ 目录的遗留面，交付前可斟酌统一。
+
+---
+
+## 君上裁定（第三轮后）
+
+- **F-1（Important）裁定为已解决**：提交 `4018c735` 把 §6 的绝对路径改为「本机真实的个人学习工作区（约 500 个 markdown 笔记）」，
+  与同节隐私声明一致。复核证据：`git grep -F 'E:\GLM' -- qoder/` 零命中；`git grep -F 'E:/GLM' -- qoder/` 零命中。
+- **E-1 / E-2 / E-3 裁定为已解决**：测试计数统一为 70（新增超长词项用例）；§2 复现口径改为「看已提交留档」；
+  `sample.md` 的「最新一行」改为「第一条数据行（按 qid 倒序）」。复核：`grep -rn '69 项\|69 passed'` 在活文档中零命中
+  （`review-report.md` 属历史审计记录，保留当时的 69，不回改）。
+- **不再开第四轮**：按委派 SOP「同一问题最多两轮修复」，第三轮仅剩单行文档修复且已由主控直接复核；
+  继续开轮只见成本不见风险下降。历史 Minor（records 头部含 `/home/vertin` 路径、`usage-metrics` 的 140 行归因）
+  作为已知项并入交付说明，不影响验收判据。
+- 结论：**验收通过（PASS）**。剩下三件不是代码问题、只能由君上完成：Qoder 登录 → 跑批取开发记录 → 发布站点。
