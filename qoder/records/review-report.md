@@ -72,3 +72,39 @@
 - parity：`node qoder/site/test/parity.mjs` → PASS 27 / FAIL 0（exit 0）。
 - 探针：FULLTEXT 召回 13/4 块；状态库 51 张官方 `pc_*` 表、pc_artifacts 4 行、pc_sources 1 行。
 - 导出对拍：postings/df 全量重算零偏差；df 抽查 满二=1/叉树=7/kruskal=3；96 块 text 与语料全量一致；`records/` 与 `site/dist/data/` 两份 index_export.json 除 generated_at 外逐字节等价；`--dry-run` 于隔离临时仓库实测（qoder 以 stub 替身、sb.sh 以 stub 替身，真仓库零改动）。
+
+---
+
+## 复审（2026-10-30 03:40 · 对象：修复提交 ee993df1）
+
+范围：仅对上轮 9 条判 ADDRESSED / NOT ADDRESSED + 修复范围内新问题扫描 + 两项回归确认。未重新漫游全案；除本文件外零写入，git 仅只读查询。
+
+### 复审判决：FAIL（仅 1 条新 Important，见 N-A；修复面极小）
+
+### 逐条判决
+
+| 条目 | 判决 | 证据（一行） |
+| --- | --- | --- |
+| I1 | **ADDRESSED** | 门禁改函数 `gate_t1..gate_t6`（qoder_dev_batch.sh:34-56）；`["hits"]` 残留 0；gate_t3 改读 `verification/expected_results.json` 的 `results[0].top5[0].chunk_id`（实测该行 Python exit 0 → `debd232c7#c01`）；4 脚本 `bash -n` 全过；隔离环境 dry-run 打印 6 条 prompt |
+| M1 | **ADDRESSED** | site/src 与 site/dist `grep -c /home/vertin` 均为 0，实测渲染为 `库：/home/&lt;user&gt;/...`（sanitize() 泛化后 html.escape）；src=dist 三文件逐字节一致 |
+| M2 | **ADDRESSED** | usage-metrics.md:27-31 注明「截至 03:10 的快照 / 复核时实测 140 行=110+30 / 按 qid 升序取前 110 行逐项吻合 / evidence 固定取最近 100 条属展示上限」，与本人实测完全一致（措辞瑕疵见 N3） |
+| M3 | **ADDRESSED** | CONTRACTS.md:77-78 改为「PyPI 官方包 powercontext[builtin]==1.4.1…SB_POWERCONTEXT_SRC 仅作可选覆盖」，与实测 POWERCONTEXT_LOCATION（venv site-packages）一致 |
+| M4 | **ADDRESSED** | 隔离环境复测 dry-run：6 条 prompt、qoder 仅 `--version` ×1、**无任何 sb.sh 调用（自测未跑）**、git tag 0→0、summary.md 未生成；真跑分支保留（:29-31/:115-118/:148-155 的 DRY=0 守卫） |
+| M5 | **ADDRESSED** | inject_site_logs.py 新增 `digest_block()`：从 `$ studybench digest` 行起取 10 行；站点 ⑤ 块现为「命令行 + 周报标题 + ## 本周完成」（dist:232-235），不再从列表中间开始 |
+| M6 | **ADDRESSED** | 页脚（src:307=dist:307）改为「私有仓库，如需访问请联系提交者开通」，不再声称已授权 |
+| M8 | **ADDRESSED（但引入 N-A）** | 两份 records 于 03:24 重生成：状态记录 = t-official r1@02:37:21→r4@02:37:31，与本复审上轮实库读取逐字段一致；检索记录 = 最近 100 条，首行=实库最新行（qid 90000001@03:23:38）逐字段同源。**下游引用未同步（N-A）** |
+| I2 | **ADDRESSED（作为如实待办）** | README 材料表：站点URL行补回填命令 `bash qoder/scripts/qoder_publish_site.sh --yes`；代码仓库行明确分支+「提交前须对评委开放，见 RUN-QODER.md §5」；dev-record 行注明 §3 跑批自动填、§1/§4 人工补。§3 本身仍空但如实（等待跑批），无伪装完成。材料落定本身依赖君上 Qoder 登录态，未在本机闭环——按「已知待办如实、可执行」标准达标，不视为「材料已齐」 |
+
+### 回归确认（两项均通过）
+
+1. `node qoder/site/test/parity.mjs` → **PASS 27 / FAIL 0（exit 0）**，未破坏（app.js 与 expected_results.json 均不在修复提交改动面内）。
+2. `qoder_publish_site.sh` 不在修复提交改动面内，`--yes` 门控原样保留（:18 `YES=0` / :59 干跑退出）；本次复审未执行任何发布。
+
+### 修复范围内新发现
+
+- **N-A（Important）· M8 的下游引用未同步**：`verification/sample.md:50` 仍引 `records/seekdb-query-record.md:9-11` 为「qid=1、命中 33」——现 :9-11 是表头+qid=90000001 行（qid=1 已在 100 条窗口之外）；`verification/sample.md:99` 仍引 `records/powercontext-state-record.md:38-44` 的 t-verify-a r1→r2——现记录仅 17 行、只含 t-official r1→r4，被引行不存在（其「存储引擎 sqlite3」描述也已过时，现记录为 `powercontext.builtin.persistence/sqlite`）；`README.md:22` 分工表仍写「真实任务版本链 r1→r2 实录」。qid=1 行实测仍在库中（(1, 01:36:08, 完全二叉树叶子结点和度为2的结点关系, debd232c7#c01, 33)）、t-verify-a 机制仍可复现，失效的是「随仓库记录中的位置引用」——验证样例与一页说明两份提交材料出现 doc-vs-doc 失配。修复：更新 sample.md:50/:99 与 README.md:22 的引用（改指现行记录行，或改为「实库可查+复现命令」表述）。
+- **N1（Minor）· gate_t4 较原门禁弱化**（qoder_dev_batch.sh:46-49）：移除了原 `href="https?://…\.(css|js)` 检查，`<link href="https://…css">` 类外链资源不再被拦（src=/url(/@import 仍拦）。建议补回该模式。
+- **N2（Minor）· gate_t3 编码依赖**（qoder_dev_batch.sh:40）：`open('qoder/verification/expected_results.json')` 未显式 `encoding='utf-8'`，本机实测可跑（exit 0），但依赖 Windows locale 编码，其他环境存在 UnicodeDecodeError 误挂门禁的风险。建议加 `encoding='utf-8'`。
+- **N3（nit）· usage-metrics.md:29 归因不精确**：「复核新增 30 次」——该 30 行（03:01-03:02）发生于本次复审首次读库之前，复审者未向默认库写入任何检索；数字与对账本身准确，建议改中性表述（如「快照后新增 30 次（开发自验）」）。
+- **N4（观察）**：`records/screenshots/`（3 张真实渲染截图 + README，含 375px 视口 `scrollWidth==clientWidth==375` 的 headless 实测记录，正面补强上轮的 375px 样式推断）目前**未被 git 跟踪**，提交前需 `git add`，否则不随仓库交付。
+- **销项**：上轮提醒「审查期间 tests/_probe_natural.py、_verify_natural.py 被删」已在 ee993df1 正式入账（提交 stat 含这两处删除），来源澄清，提醒关闭。

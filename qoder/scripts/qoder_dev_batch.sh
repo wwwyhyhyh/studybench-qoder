@@ -37,7 +37,7 @@ gate_t2() { bash qoder/scripts/sb.sh verify --check; }
 
 gate_t3() {
   local cid out
-  cid=$(python -c "import json;print(json.load(open('qoder/verification/expected_results.json'))['results'][0]['top5'][0]['chunk_id'])") || return 1
+  cid=$(python -c "import json;print(json.load(open('qoder/verification/expected_results.json', encoding='utf-8'))['results'][0]['top5'][0]['chunk_id'])") || return 1
   out=$(bash qoder/scripts/sb.sh related --chunk "$cid" --top 3 2>&1) || return 1
   [ -n "$out" ] || return 1
   printf '%s\n' "$out" | head -5
@@ -45,7 +45,8 @@ gate_t3() {
 
 gate_t4() {
   node qoder/site/test/parity.mjs >/dev/null || return 1
-  ! grep -rEq 'src="https?://|url\(https?://|@import' qoder/site/dist
+  # 外链资源：脚本 src、样式/图标 link href、CSS url()/import 一律不允许
+  ! grep -rEq 'src="https?://|<link[^>]+href="https?://|url\(https?://|@import' qoder/site/dist
 }
 
 gate_t5() {

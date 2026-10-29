@@ -6,7 +6,9 @@
 2. 按字符游程切词：CJK 游程 = CJK 扩展 A 区（U+3400-U+4DBF）与基本区
    （U+4E00-U+9FFF）的连续字符；ASCII 词 = ``[A-Za-z0-9]`` 连续；其余字符
    （空白、标点、全角符号、emoji）一律为分隔。
-3. ASCII 词：小写后取长度 ≥ 2 的词，长度 1 丢弃。
+3. ASCII 词：小写后取长度 ≥ 2 的词，长度 1 丢弃；**长度 > 48 的整串丢弃**
+   （真实笔记里会出现 data URI / base64 / 长哈希，如 439 字符的 ``phn2zy...``，
+   属噪声且会撑爆 ``chunk_terms.term``；JS 侧同一规则）。
 4. CJK 游程：取全部相邻 2-gram；游程长度为 1 时取该单字。
 5. 过滤停用词：只过滤整词项；2-gram 即使含停用字也保留（如「的数」）。
 6. :func:`tokenize` 返回按首次出现顺序去重的词项；:func:`tf_map` 返回词频。
@@ -31,6 +33,9 @@ STOPWORDS: tuple[str, ...] = tuple(dict.fromkeys(_STOPWORD_SOURCE))
 
 #: 停用词集合（只过滤整词项）。
 STOPWORD_SET: frozenset[str] = frozenset(STOPWORDS)
+
+#: 超长 ASCII 串上限：更长的整串视为 data URI / base64 / 哈希噪声，直接丢弃。
+MAX_ASCII_TERM: int = 48
 
 #: CJK 游程边界（U+3400-U+4DBF 与 U+4E00-U+9FFF，用 chr() 避免源码编码歧义）。
 _CJK_LOW_1 = chr(0x3400)
@@ -74,7 +79,7 @@ def _raw_terms(text: str) -> list[str]:
             while index < length and _is_ascii_alnum(normalized[index]):
                 index += 1
             word = normalized[start:index].lower()
-            if len(word) >= 2:
+            if 2 <= len(word) <= MAX_ASCII_TERM:
                 terms.append(word)
         else:
             index += 1

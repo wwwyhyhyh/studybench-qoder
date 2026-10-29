@@ -19,7 +19,7 @@
 | 组件 | 承担什么 | 证据 |
 | --- | --- | --- |
 | **seekdb**（pylibseekdb 1.3.0.post4 嵌入式，OceanBase 内核） | 文档/块/词项存储与中文召回：`docs`、`chunks`、`chunk_terms`、`query_log` 四表 + **NGRAM 全文索引**（SPACE 分词器最小词长 3 不适用中文 2-gram，故改用 NGRAM，见 `store.py` 裁决注释）+ 结构化过滤；BM25 在其词项统计上重排 | `studybench/studybench/store.py`（`_FULLTEXT_DDL`）；`records/seekdb-query-record.md`（query_log 实录）；`verification/logs/{ingest,index,search,export}.log`；`records/index_export.json`（12 篇 / 96 块 / 11983 词项 / 平均块长 372.7） |
-| **PowerContext**（PyPI `powercontext==1.4.1[builtin]`） | 任务记忆与周报：`Source` 存任务规格、`Artifact` 存不可变进度 revision（`progress` family），组合根走 `context.Sources` / `context.Artifacts`，**存储引擎用官方 `powercontext.builtin.persistence`**（`SourceRepository` / `ArtifactRepository`，SQLite 文件），重启后版本链可读、可续写 | `studybench/studybench/state.py` 文件头声明（`BACKEND = "powercontext"`，`STORAGE_BACKEND = "powercontext.builtin.persistence/sqlite"`）；`records/powercontext-state-record.md`（真实任务版本链 r1→r2 实录） |
+| **PowerContext**（PyPI `powercontext==1.4.1[builtin]`） | 任务记忆与周报：`Source` 存任务规格、`Artifact` 存不可变进度 revision（`progress` family），组合根走 `context.Sources` / `context.Artifacts`，**存储引擎用官方 `powercontext.builtin.persistence`**（`SourceRepository` / `ArtifactRepository`，SQLite 文件），重启后版本链可读、可续写 | `studybench/studybench/state.py` 文件头声明（`BACKEND = "powercontext"`，`STORAGE_BACKEND = "powercontext.builtin.persistence/sqlite"`）；`records/powercontext-state-record.md`（真实任务 t-official 的 r1→r4 版本链实录） |
 | **Qoder** | 开发协作与站点托管：并行开发按 `CONTRACTS.md` 契约推进（表结构/打分公式/CLI/验收口径全部先行冻结）；站点发布目录 `site/dist/` 为纯静态（Qoder Sites 免费版仅支持静态托管），零外链、断网可 `file://` 打开 | `CONTRACTS.md`；`site/dist/`（index.html、styles.css、app.js、data/index_export.json）；`site/test/parity.mjs`（读 `verification/expected_results.json`，实测 `PASS 27 / FAIL 0`：浏览器端与 Python 的 top-5 顺序及 6 位小数得分完全一致） |
 
 ## 提交材料映射
@@ -31,7 +31,7 @@
 | 运行说明 | [RUN.md](RUN.md)（干净 Linux 从零跑通，全部命令实跑核对） |
 | 验证样例 | [verification/sample.md](verification/sample.md)（配 `verification/expected_results.json` 与 `verification/logs/`） |
 | Qoder 开发记录 | [records/qoder-dev-record.md](records/qoder-dev-record.md)（§3 由 `bash qoder/scripts/qoder_dev_batch.sh` 跑批后自动填；§1 UID 与 §4 截图需人工补） |
-| 使用效果材料 | `records/`（检索记录、任务状态记录、站点索引，均由 `studybench evidence`/`export` 自动生成）＋ `verification/logs/`（终端实录） |
+| 使用效果材料 | `records/usage-metrics.md`（演示语料 110 次检索 / p50 29.6ms / 10-10 命中；**另在真实个人工作区 436 篇笔记、3424 块上实测：建索引 119s、检索 p50 59.8ms**，仅统计量不含内容）＋ `records/`（记录均由命令自动生成）＋ `verification/logs/`（终端实录） |
 
 ## 目录结构
 

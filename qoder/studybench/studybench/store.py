@@ -46,7 +46,7 @@ _TABLE_DDL: tuple[str, ...] = (
     """,
     """
     CREATE TABLE IF NOT EXISTS chunk_terms(
-      chunk_id VARCHAR(96) NOT NULL, term VARCHAR(64) NOT NULL, tf INT NOT NULL,
+      chunk_id VARCHAR(96) NOT NULL, term VARCHAR(128) NOT NULL, tf INT NOT NULL,
       PRIMARY KEY(chunk_id, term), KEY idx_term(term))
     """,
     """
@@ -61,6 +61,10 @@ _FULLTEXT_DDL = (
     "CREATE FULLTEXT INDEX ft_chunks ON chunks (searchable_text) "
     "WITH PARSER NGRAM"
 )
+
+#: ``chunk_terms.term`` 的列宽（VARCHAR(128)）。分词侧已把 ASCII 串截到 48，
+#: 这里再兜一层：超宽词项跳过入库，避免真实语料里的 data URI/哈希把 INSERT 撑爆。
+_MAX_TERM_CHARS = 128
 
 
 class StoreError(RuntimeError):
@@ -222,7 +226,9 @@ class Store:
                 )
                 + ")"
             )
-            items = sorted(chunk["terms"].items())
+            items = sorted(
+                (term, tf) for term, tf in chunk["terms"].items() if len(term) <= _MAX_TERM_CHARS
+            )
             if items:
                 values = ",".join(
                     f"({escape_sql(chunk['chunk_id'])},{escape_sql(term)},{int(tf)})"

@@ -119,7 +119,9 @@ CREATE TABLE query_log(                 -- 使用数据与检索证据
 1. `s = unicodedata.normalize("NFKC", text)`（JS: `s.normalize("NFKC")`）。
 2. 遍历字符分「游程」：CJK 游程 = `[\u3400-\u4dbf\u4e00-\u9fff]` 连续；ASCII 词 = `[A-Za-z0-9]` 连续。
    其余字符（空白、标点、全角符号、emoji）为分隔。
-3. ASCII 词：`ascii_lower()` 后取 **长度 ≥ 2** 的词；长度 1 丢弃。
+3. ASCII 词：`ascii_lower()` 后取 **长度 ≥ 2** 的词；长度 1 丢弃；**长度 > 48 的整串丢弃**
+   （真实笔记里会出现 data URI / base64 / 长哈希——实测最长 439 字符，属噪声且会撑爆 `chunk_terms.term`；
+   JS 侧同一常量 `MAX_ASCII_TERM = 48`）。
 4. CJK 游程：取全部 **2-gram**（相邻两字）；若游程长度为 1，取该单字。
 5. 去停用词：`terms.STOPWORDS`（单字 CJK 与 ASCII 停用词，见 §4.4）；**只过滤整词项**，
    2-gram 即使含停用字也保留（如「的数」「点的」保留）。

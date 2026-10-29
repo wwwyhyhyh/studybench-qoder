@@ -47,7 +47,7 @@ top-5 与 `verification/expected_results.json:8-44` 完全一致：
 - `verification/logs/ingest.log`：`已索引 12 篇文档、96 个块`（exit=0）；
 - `verification/logs/index.log`：`文档 12 篇｜块 96 个｜词项 11983 个｜平均块长 372.7`；
 - `verification/logs/search.log:1-29`：本样例查询的完整实录（同文件还含「归并排序为什么稳定」「kruskal为什么要按边权排序」两条实录，top-1 分别为 17.259432 与 28.706917，与 `expected_results.json` 第二、三组一致）；
-- `records/seekdb-query-record.md:9-11`：query_log 落库证据（qid=1、top_chunk=debd232c7#c01、命中 33——该行为开发机另一条查询「完全二叉树叶子结点和度为2的结点关系」的留档，说明同一机制持续留痕）。
+- `records/seekdb-query-record.md`：`query_log` 的留档（自动生成，固定取最近 100 条）。**不锁定行号**——每次检索都会追加，文件内容会随使用漂移；核对方法：把你这次 `search` 的「命中数」与文件里最新一行的 `n_hits` 对上即可（qid 单调递增）。
 
 ### 重置方法
 
@@ -96,7 +96,7 @@ sb task resume t-verify-a
 
 ### 实际记录
 
-`records/powercontext-state-record.md:38-44`：任务 t-verify-a 最新 revision r2、版本历史 `r1 → r2`、已完成「重推 n0=n2+1」、下一步「做哈夫曼题」，与预期结果逐项一致。该记录由 `sb evidence` 自动生成，其头部（`:4-:6`）同时留档了状态库路径、模型层（`powercontext`，存储引擎 `sqlite3`，见 `studybench/studybench/state.py` 文件头声明）与任务数。
+`records/powercontext-state-record.md` 由 `sb evidence` 从状态库直接生成，头部留档状态库路径、模型层（`powercontext`）与**存储引擎 `powercontext.builtin.persistence/sqlite`**（见 `studybench/studybench/state.py` 文件头声明）。**不锁定行号**：每执行一次 `task update` 都会追加 revision，文件的版本链会变长。核对方法：跑完上面的三条命令后，用 `bash qoder/scripts/sb.sh task resume t-verify-a` 读出与记录末尾一致的最新 revision（`r1 → r2` 起，若重复执行则继续递增），已完成/下一步两行与预期结果逐项一致。
 
 ### 重置方法
 

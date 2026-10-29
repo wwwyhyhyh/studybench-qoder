@@ -56,6 +56,8 @@ bash qoder/scripts/qoder_dev_batch.sh             # 真跑
 - 门禁**失败即停批**并保留现场，按屏幕提示回滚该条再继续；每条成功的任务会 commit，日志在
   `qoder/records/qoder-logs/`，汇总表在 `qoder/records/qoder-logs/summary.md`。
 - 额度：免费体验版 300 Credits + 每日签到 100，六条任务通常够；控制台 `/usage` 可看余量。
+- **不想用脚本？** 六条 prompt 已导出到 `qoder/records/qoder-prompts.md`，可在 Qoder 桌面端/IDE 里逐条粘贴，
+  每条做完照「门禁」自己跑一次命令再提交（效果等同，只是要手动截图）。
 - 跑完把 `summary.md` 的表复制进 `qoder/records/qoder-dev-record.md` §3，并补 §1 的 UID、§4 的截图路径。
 
 > **如果 Qoder 跑批失败或额度不够**：不用硬撑。把失败那条的日志留在 `qoder/records/qoder-logs/`，

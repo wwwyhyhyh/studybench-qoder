@@ -84,7 +84,8 @@
         i += 1;
         while (i < cps.length && isAsciiAlnum(cps[i])) i += 1;
         var word = cps.slice(from, i).join("").toLowerCase();
-        if (word.length >= 2) terms.push(word);
+        /* 与 terms.MAX_ASCII_TERM 一致：超长 ASCII 串是 data URI/哈希噪声，丢弃。 */
+        if (word.length >= 2 && word.length <= 48) terms.push(word);
       } else {
         i += 1;
       }

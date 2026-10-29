@@ -14,6 +14,17 @@ def test_nfkc_and_ascii_words() -> None:
     assert terms.tokenize("ab cd") == ["ab", "cd"]
 
 
+def test_overlong_ascii_token_is_dropped() -> None:
+    """真实语料回归：data URI / base64 这类超长 ASCII 串不得进词表（会撑爆 term 列）。"""
+
+    long_token = "phn2zyageg1sbnm9imh0dha6ly93d3cudzmub3jn" * 10  # 440 字符
+    assert len(long_token) > terms.MAX_ASCII_TERM
+    assert terms.tokenize(long_token) == []
+    assert terms.tokenize("ok " + long_token + " 保留") == ["ok", "保留"]
+    assert terms.tokenize("a" * 48) == ["a" * 48]  # 边界值保留
+    assert terms.tokenize("a" * 49) == []
+
+
 def test_cjk_bigrams_and_single_char_run() -> None:
     assert terms.tokenize("完全二叉树") == ["完全", "全二", "二叉", "叉树"]
     assert terms.tokenize("树") == ["树"]  # 游程长度 1 → 单字
