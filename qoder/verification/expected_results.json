@@ -1,0 +1,416 @@
+{
+ "generated_at": "2026-10-30T02:21:05+08:00",
+ "db": "/home/vertin/sb-run/.runtime/sb.db",
+ "results": [
+  {
+   "query": "满二叉树和完全二叉树区别",
+   "expect_heading": "满二叉树与完全二叉树",
+   "top5": [
+    {
+     "chunk_id": "debd232c7#c01",
+     "score": 28.069435,
+     "path": "数据结构/树与二叉树.md",
+     "heading": "满二叉树与完全二叉树",
+     "line_start": 7
+    },
+    {
+     "chunk_id": "debd232c7#c00",
+     "score": 20.010815,
+     "path": "数据结构/树与二叉树.md",
+     "heading": "二叉树的定义与基本形态",
+     "line_start": 3
+    },
+    {
+     "chunk_id": "debd232c7#c02",
+     "score": 13.63341,
+     "path": "数据结构/树与二叉树.md",
+     "heading": "关键性质：n0 = n2 + 1",
+     "line_start": 11
+    },
+    {
+     "chunk_id": "debd232c7#c07",
+     "score": 10.365128,
+     "path": "数据结构/树与二叉树.md",
+     "heading": "堆与优先队列",
+     "line_start": 31
+    },
+    {
+     "chunk_id": "debd232c7#c05",
+     "score": 10.349773,
+     "path": "数据结构/树与二叉树.md",
+     "heading": "由遍历序列重建二叉树",
+     "line_start": 23
+    }
+   ]
+  },
+  {
+   "query": "归并排序为什么稳定",
+   "expect_heading": "归并排序与分治",
+   "top5": [
+    {
+     "chunk_id": "d080ab961#c02",
+     "score": 17.259432,
+     "path": "数据结构/排序算法.md",
+     "heading": "归并排序与分治",
+     "line_start": 11
+    },
+    {
+     "chunk_id": "d080ab961#c06",
+     "score": 11.120608,
+     "path": "数据结构/排序算法.md",
+     "heading": "各排序复杂度对比表",
+     "line_start": 27
+    },
+    {
+     "chunk_id": "d080ab961#c03",
+     "score": 11.02555,
+     "path": "数据结构/排序算法.md",
+     "heading": "稳定性的价值与判定",
+     "line_start": 15
+    },
+    {
+     "chunk_id": "d080ab961#c01",
+     "score": 8.670439,
+     "path": "数据结构/排序算法.md",
+     "heading": "快速排序：划分与基准选取",
+     "line_start": 7
+    },
+    {
+     "chunk_id": "d080ab961#c07",
+     "score": 8.343857,
+     "path": "数据结构/排序算法.md",
+     "heading": "手写排序的测试要点",
+     "line_start": 31
+    }
+   ]
+  },
+  {
+   "query": "kruskal为什么要按边权排序",
+   "expect_heading": "Kruskal：并查集与边排序",
+   "top5": [
+    {
+     "chunk_id": "d15c48d17#c03",
+     "score": 28.706917,
+     "path": "数据结构/图与最小生成树.md",
+     "heading": "Kruskal：并查集与边排序",
+     "line_start": 15
+    },
+    {
+     "chunk_id": "d15c48d17#c07",
+     "score": 11.135193,
+     "path": "数据结构/图与最小生成树.md",
+     "heading": "图论题常见错误清单",
+     "line_start": 31
+    },
+    {
+     "chunk_id": "d15c48d17#c04",
+     "score": 9.109245,
+     "path": "数据结构/图与最小生成树.md",
+     "heading": "Prim：稠密图上的选择",
+     "line_start": 19
+    },
+    {
+     "chunk_id": "d080ab961#c01",
+     "score": 6.734305,
+     "path": "数据结构/排序算法.md",
+     "heading": "快速排序：划分与基准选取",
+     "line_start": 7
+    },
+    {
+     "chunk_id": "d080ab961#c07",
+     "score": 5.544564,
+     "path": "数据结构/排序算法.md",
+     "heading": "手写排序的测试要点",
+     "line_start": 31
+    }
+   ]
+  },
+  {
+   "query": "分光计调到什么程度算调好",
+   "expect_heading": "细调到位的判定标准",
+   "top5": [
+    {
+     "chunk_id": "def57214e#c05",
+     "score": 36.193389,
+     "path": "物理实验/分光计与三棱镜顶角.md",
+     "heading": "细调到位的判定标准",
+     "line_start": 23
+    },
+    {
+     "chunk_id": "def57214e#c00",
+     "score": 18.756475,
+     "path": "物理实验/分光计与三棱镜顶角.md",
+     "heading": "分光计的构成与四个部件",
+     "line_start": 3
+    },
+    {
+     "chunk_id": "def57214e#c01",
+     "score": 11.416913,
+     "path": "物理实验/分光计与三棱镜顶角.md",
+     "heading": "目镜调焦与对无穷远",
+     "line_start": 7
+    },
+    {
+     "chunk_id": "def57214e#c06",
+     "score": 7.539533,
+     "path": "物理实验/分光计与三棱镜顶角.md",
+     "heading": "游标读数与偏心差",
+     "line_start": 27
+    },
+    {
+     "chunk_id": "def57214e#c02",
+     "score": 4.393649,
+     "path": "物理实验/分光计与三棱镜顶角.md",
+     "heading": "载物台水平的调节方法",
+     "line_start": 11
+    }
+   ]
+  },
+  {
+   "query": "转动惯量平行轴定理怎么验证",
+   "expect_heading": "平行轴定理的验证",
+   "top5": [
+    {
+     "chunk_id": "d058b2592#c04",
+     "score": 36.18796,
+     "path": "物理实验/扭摆法测转动惯量.md",
+     "heading": "平行轴定理的验证",
+     "line_start": 19
+    },
+    {
+     "chunk_id": "d058b2592#c00",
+     "score": 12.654526,
+     "path": "物理实验/扭摆法测转动惯量.md",
+     "heading": "扭摆的结构与测量原理",
+     "line_start": 3
+    },
+    {
+     "chunk_id": "d058b2592#c07",
+     "score": 8.235312,
+     "path": "物理实验/扭摆法测转动惯量.md",
+     "heading": "实验操作顺序与安全",
+     "line_start": 31
+    },
+    {
+     "chunk_id": "d058b2592#c05",
+     "score": 7.837458,
+     "path": "物理实验/扭摆法测转动惯量.md",
+     "heading": "扭摆与三线摆的对比",
+     "line_start": 23
+    },
+    {
+     "chunk_id": "d058b2592#c06",
+     "score": 7.804157,
+     "path": "物理实验/扭摆法测转动惯量.md",
+     "heading": "误差来源与结果表达",
+     "line_start": 27
+    }
+   ]
+  },
+  {
+   "query": "联合密度怎么求待定常数",
+   "expect_heading": "待定常数与归一化",
+   "top5": [
+    {
+     "chunk_id": "d2a1d38ef#c02",
+     "score": 32.270918,
+     "path": "概率论/二维随机变量与联合密度.md",
+     "heading": "待定常数与归一化",
+     "line_start": 11
+    },
+    {
+     "chunk_id": "d2a1d38ef#c01",
+     "score": 15.040413,
+     "path": "概率论/二维随机变量与联合密度.md",
+     "heading": "联合密度与边缘密度",
+     "line_start": 7
+    },
+    {
+     "chunk_id": "d2a1d38ef#c03",
+     "score": 12.065159,
+     "path": "概率论/二维随机变量与联合密度.md",
+     "heading": "条件密度与独立性",
+     "line_start": 15
+    },
+    {
+     "chunk_id": "d2a1d38ef#c07",
+     "score": 8.257982,
+     "path": "概率论/二维随机变量与联合密度.md",
+     "heading": "常见错误与检查清单",
+     "line_start": 31
+    },
+    {
+     "chunk_id": "d2a1d38ef#c00",
+     "score": 4.858773,
+     "path": "概率论/二维随机变量与联合密度.md",
+     "heading": "二维随机变量与联合分布",
+     "line_start": 3
+    }
+   ]
+  },
+  {
+   "query": "样本方差为什么除以n减一",
+   "expect_heading": "贝塞尔校正与样本方差",
+   "top5": [
+    {
+     "chunk_id": "d530c4896#c03",
+     "score": 22.789051,
+     "path": "概率论/大数定律与中心极限定理.md",
+     "heading": "贝塞尔校正与样本方差",
+     "line_start": 15
+    },
+    {
+     "chunk_id": "d2a1d38ef#c03",
+     "score": 9.350764,
+     "path": "概率论/二维随机变量与联合密度.md",
+     "heading": "条件密度与独立性",
+     "line_start": 15
+    },
+    {
+     "chunk_id": "def57214e#c04",
+     "score": 7.13547,
+     "path": "物理实验/分光计与三棱镜顶角.md",
+     "heading": "反射法测顶角与光路",
+     "line_start": 19
+    },
+    {
+     "chunk_id": "d2a1d38ef#c04",
+     "score": 7.129503,
+     "path": "概率论/二维随机变量与联合密度.md",
+     "heading": "协方差与相关系数",
+     "line_start": 19
+    },
+    {
+     "chunk_id": "d530c4896#c01",
+     "score": 6.926105,
+     "path": "概率论/大数定律与中心极限定理.md",
+     "heading": "切比雪夫大数定律",
+     "line_start": 7
+    }
+   ]
+  },
+  {
+   "query": "实验数据应该怎么记录",
+   "expect_heading": "实验数据记录的三条底线",
+   "top5": [
+    {
+     "chunk_id": "decd71b6c#c00",
+     "score": 13.994191,
+     "path": "科研/实验数据记录规范.md",
+     "heading": "实验数据记录的三条底线",
+     "line_start": 3
+    },
+    {
+     "chunk_id": "d882267ae#c02",
+     "score": 5.697449,
+     "path": "工作流/周报与复盘模板.md",
+     "heading": "复盘的四问框架",
+     "line_start": 11
+    },
+    {
+     "chunk_id": "decd71b6c#c07",
+     "score": 5.609683,
+     "path": "科研/实验数据记录规范.md",
+     "heading": "电子记录与备份策略",
+     "line_start": 31
+    },
+    {
+     "chunk_id": "decd71b6c#c06",
+     "score": 5.470461,
+     "path": "科研/实验数据记录规范.md",
+     "heading": "报告呈现与诚实规范",
+     "line_start": 27
+    },
+    {
+     "chunk_id": "d058b2592#c07",
+     "score": 5.070909,
+     "path": "物理实验/扭摆法测转动惯量.md",
+     "heading": "实验操作顺序与安全",
+     "line_start": 31
+    }
+   ]
+  },
+  {
+   "query": "第三范式到底消除什么依赖",
+   "expect_heading": "第三范式：消除传递依赖",
+   "top5": [
+    {
+     "chunk_id": "d4c3ffe62#c03",
+     "score": 20.209319,
+     "path": "数据库/关系规范化与范式.md",
+     "heading": "第三范式：消除传递依赖",
+     "line_start": 15
+    },
+    {
+     "chunk_id": "d4c3ffe62#c07",
+     "score": 12.433113,
+     "path": "数据库/关系规范化与范式.md",
+     "heading": "范式判断题的解题流程",
+     "line_start": 31
+    },
+    {
+     "chunk_id": "d4c3ffe62#c02",
+     "score": 10.687524,
+     "path": "数据库/关系规范化与范式.md",
+     "heading": "第二范式：消除部分依赖",
+     "line_start": 11
+    },
+    {
+     "chunk_id": "d4c3ffe62#c05",
+     "score": 9.693912,
+     "path": "数据库/关系规范化与范式.md",
+     "heading": "多值依赖与第四范式",
+     "line_start": 23
+    },
+    {
+     "chunk_id": "d4c3ffe62#c06",
+     "score": 7.261538,
+     "path": "数据库/关系规范化与范式.md",
+     "heading": "反范式与工程取舍",
+     "line_start": 27
+    }
+   ]
+  },
+  {
+   "query": "索引建多了会有什么坏处",
+   "expect_heading": "二级索引与写放大",
+   "top5": [
+    {
+     "chunk_id": "d4f903744#c03",
+     "score": 23.071858,
+     "path": "竞赛/OceanBase大赛提交清单.md",
+     "heading": "二级索引与写放大",
+     "line_start": 15
+    },
+    {
+     "chunk_id": "d4f903744#c06",
+     "score": 6.027456,
+     "path": "竞赛/OceanBase大赛提交清单.md",
+     "heading": "答辩准备与常见追问",
+     "line_start": 27
+    },
+    {
+     "chunk_id": "d4c3ffe62#c06",
+     "score": 4.237275,
+     "path": "数据库/关系规范化与范式.md",
+     "heading": "反范式与工程取舍",
+     "line_start": 27
+    },
+    {
+     "chunk_id": "d4c3ffe62#c01",
+     "score": 3.09694,
+     "path": "数据库/关系规范化与范式.md",
+     "heading": "第一范式与原子性",
+     "line_start": 7
+    },
+    {
+     "chunk_id": "d882267ae#c02",
+     "score": 2.839306,
+     "path": "工作流/周报与复盘模板.md",
+     "heading": "复盘的四问框架",
+     "line_start": 11
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,64 @@
+{
+  "tasks": [
+    {
+      "task_id": "t-done-a",
+      "title": "物理实验：扭摆法数据处理",
+      "course": "物理实验",
+      "due": "2026-10-27",
+      "priority": "high",
+      "status": "done",
+      "done": ["拟合 Ix-x^2 图", "不确定度计算"],
+      "doing": [],
+      "next": ["交报告"],
+      "blockers": []
+    },
+    {
+      "task_id": "t-doing-ds",
+      "title": "数据结构大作业",
+      "course": "数据结构",
+      "due": "2026-11-01",
+      "priority": "high",
+      "status": "doing",
+      "done": ["选定题目"],
+      "doing": ["哈夫曼编码实现"],
+      "next": ["实现哈夫曼编码", "写实验报告"],
+      "blockers": []
+    },
+    {
+      "task_id": "t-blocked-cmp",
+      "title": "竞赛报名材料",
+      "course": "竞赛",
+      "due": "2026-10-29",
+      "priority": "medium",
+      "status": "doing",
+      "done": [],
+      "doing": ["填写报名表"],
+      "next": ["复习大数定律"],
+      "blockers": ["等老师签字"]
+    },
+    {
+      "task_id": "t-next-week-phy",
+      "title": "概率论习题课预习",
+      "course": "概率论",
+      "due": "2026-11-02",
+      "priority": "low",
+      "status": "doing",
+      "done": [],
+      "doing": [],
+      "next": ["准备答辩", "复习大数定律"],
+      "blockers": []
+    },
+    {
+      "task_id": "t-idle",
+      "title": "整理实验数据归档",
+      "course": "物理实验",
+      "due": "2026-11-13",
+      "priority": "low",
+      "status": "doing",
+      "done": [],
+      "doing": [],
+      "next": [],
+      "blockers": []
+    }
+  ]
+}

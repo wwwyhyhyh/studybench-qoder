@@ -1,0 +1,4 @@
+$ bash qoder/scripts/sb.sh export --out /mnt/e/CodeX/PowerContext-2026/qoder/records/index_export.json
+[started 2026-10-30T02:20:43+08:00]
+已导出 12 篇文档、96 个块、11983 个词项 → /mnt/e/CodeX/PowerContext-2026/qoder/records/index_export.json（813171 字节）
+[exit=0 finished 2026-10-30T02:20:46+08:00]

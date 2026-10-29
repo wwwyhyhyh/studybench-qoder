@@ -1,0 +1,5 @@
+$ bash qoder/scripts/sb.sh ingest --src qoder/corpus_demo
+[started 2026-10-30T02:11:46+08:00]
+已索引 12 篇文档、96 个块
+库：/home/vertin/sb-run/.runtime/sb.db
+[exit=0 finished 2026-10-30T02:11:57+08:00]

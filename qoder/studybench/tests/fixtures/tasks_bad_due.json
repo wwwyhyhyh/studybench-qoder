@@ -1,0 +1,12 @@
+{
+  "tasks": [
+    {
+      "task_id": "t-bad-due",
+      "title": "日期非法的任务",
+      "course": "数据结构",
+      "due": "2026/11/01",
+      "priority": "high",
+      "status": "doing"
+    }
+  ]
+}

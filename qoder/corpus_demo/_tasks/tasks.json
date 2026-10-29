@@ -1,0 +1,76 @@
+{
+  "tasks": [
+    {
+      "task_id": "t-sb-001",
+      "title": "整理排序算法笔记并完成自测",
+      "course": "数据结构",
+      "due": "2026-10-21",
+      "priority": "high",
+      "status": "done",
+      "done": ["整理八种排序对比表", "手写快排、归并与堆排序实现", "默写两个稳定性反例序列"],
+      "doing": [],
+      "next": ["把易错点补进错题本"],
+      "blockers": []
+    },
+    {
+      "task_id": "t-sb-002",
+      "title": "二维随机变量习题集一轮",
+      "course": "概率论",
+      "due": "2026-10-25",
+      "priority": "medium",
+      "status": "done",
+      "done": ["边缘密度与独立性判定练习", "卷积公式与函数分布大题"],
+      "doing": [],
+      "next": [],
+      "blockers": []
+    },
+    {
+      "task_id": "t-sb-003",
+      "title": "扭摆法实验报告：数据处理与不确定度",
+      "course": "物理实验",
+      "due": "2026-10-31",
+      "priority": "high",
+      "status": "doing",
+      "done": ["完成 10 组周期测量（示例数据）", "标定扭转常数 K 与载物盘 I0"],
+      "doing": ["平行轴定理线性拟合", "合成不确定度"],
+      "next": ["撰写误差分析小节", "按记录规范誊清数据表"],
+      "blockers": []
+    },
+    {
+      "task_id": "t-sb-004",
+      "title": "OceanBase 大赛复赛提交",
+      "course": "竞赛",
+      "due": "2026-11-10",
+      "priority": "high",
+      "status": "blocked",
+      "done": ["功能自检脚本一键回归", "压测基线记录"],
+      "doing": ["二级索引写放大对比实验"],
+      "next": ["按提交清单逐项勾选", "交叉复核部署文档"],
+      "blockers": ["干净环境复测部署脚本失败：依赖版本与赛题环境不一致，需等官方镜像更新后重跑"]
+    },
+    {
+      "task_id": "t-sb-005",
+      "title": "文献综述初稿：检索式与筛选",
+      "course": "科研",
+      "due": "2026-10-28",
+      "priority": "medium",
+      "status": "doing",
+      "done": ["确定概念块与布尔检索式", "完成去重与初筛"],
+      "doing": ["精读并填文献矩阵表"],
+      "next": ["写主题段初稿"],
+      "blockers": []
+    },
+    {
+      "task_id": "t-sb-006",
+      "title": "第三范式与 BCNF 判断题专练",
+      "course": "数据库",
+      "due": "2026-11-05",
+      "priority": "medium",
+      "status": "todo",
+      "done": [],
+      "doing": [],
+      "next": ["先练函数依赖闭包与候选码求解", "再做范式判断与分解题"],
+      "blockers": []
+    }
+  ]
+}

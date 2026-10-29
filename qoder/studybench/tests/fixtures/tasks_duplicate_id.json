@@ -1,0 +1,20 @@
+{
+  "tasks": [
+    {
+      "task_id": "t-dup",
+      "title": "第一个",
+      "course": "数据结构",
+      "due": "2026-11-01",
+      "priority": "high",
+      "status": "doing"
+    },
+    {
+      "task_id": "t-dup",
+      "title": "重复的编号",
+      "course": "概率论",
+      "due": "2026-11-02",
+      "priority": "low",
+      "status": "doing"
+    }
+  ]
+}
