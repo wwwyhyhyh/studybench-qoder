@@ -35,7 +35,10 @@ CLI 命令表、导出 JSON、验收清单），再让 Qoder 在仓库内按任�
 
 | 场景 | 路径/说明 |
 | --- | --- |
-| Qoder CLI 会话（`qoder -p` 执行中） | <!-- 待填：截图放 records/screenshots/，建议 2–3 张 --> |
+| 站点桌面端 | `records/screenshots/site-1280.png`（真实渲染） |
+| 站点移动端 375px | `records/screenshots/site-375.png`（CDP 视口模拟，实测无横向溢出） |
+| 站点试用区真实检索 | `records/screenshots/site-tryit.png`（top-1 得分 36.193389，与 CLI 同分） |
+| Qoder CLI 会话（`qoder -p` 执行中） | <!-- 待填：跑批时截 2–3 张，放 records/screenshots/ --> |
 | Qoder 站点面板（发布成功状态） | <!-- 待填 --> |
 | 站点公开访问（无痕窗口） | <!-- 待填 --> |
 
