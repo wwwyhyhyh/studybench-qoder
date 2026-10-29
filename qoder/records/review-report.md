@@ -108,3 +108,35 @@
 - **N3（nit）· usage-metrics.md:29 归因不精确**：「复核新增 30 次」——该 30 行（03:01-03:02）发生于本次复审首次读库之前，复审者未向默认库写入任何检索；数字与对账本身准确，建议改中性表述（如「快照后新增 30 次（开发自验）」）。
 - **N4（观察）**：`records/screenshots/`（3 张真实渲染截图 + README，含 375px 视口 `scrollWidth==clientWidth==375` 的 headless 实测记录，正面补强上轮的 375px 样式推断）目前**未被 git 跟踪**，提交前需 `git add`，否则不随仓库交付。
 - **销项**：上轮提醒「审查期间 tests/_probe_natural.py、_verify_natural.py 被删」已在 ee993df1 正式入账（提交 stat 含这两处删除），来源澄清，提醒关闭。
+
+---
+
+## 终审（2026-10-30 · 对象：修复提交 66d35a42，限定 delta 范围）
+
+范围：仅 66d35a42 相对 ee993df1/8a43c757 的 15 文件 delta 及其直接影响面（48 字符规则、门禁两处、文档引用改造、§6 实测、导出 JSON）。未重跑 pytest 全量（提交者自述 70 passed；本审实跑 test_terms.py 7 passed）。除本文件追加外零写入；git 与 WSL 演示库均为只读查询（检索验证会向演示库 query_log 追加行，属运行态、不入仓库）。
+
+### 终审判决：**FAIL（1 Important + 3 Minor；Important 为单行文档修复，修掉即转 PASS）**
+
+### A–G 逐条
+
+| 判据 | 判决 | 证据（实测） |
+| --- | --- | --- |
+| A src/dist 一致 + 零外链 | **PASS** | `cmp` 三文件（app.js/index.html/styles.css）逐字节一致；gate_t4 新 grep 模式对 dist 零匹配；dist 唯一外部 URL 为 index.html:307 页脚 GitHub 仓库 `<a>` 超链接（非资源引用）；合成样本 `<link href="https://...">` 可被新模式命中（N1 确已补回） |
+| B dry-run 无副作用 | **PASS** | 实跑 exit 0，打印 6 条 prompt + 尾注；前后 `git status --porcelain` 均 0 行；`git tag -l 'qoder-baseline-*'` = 0；summary.md 未生成；门禁函数定义但 DRY=1 在 :67 提前 return（gate_t3 的 python 一行另实测 exit 0）。副作用仅 `qoder --version`（:23）与 `mkdir -p` 已存在目录。注：qoder 未安装时 dry-run 会 exit 2（:23 前置依赖，非本提交引入） |
+| C parity 27/0 | **PASS** | `node qoder/site/test/parity.mjs` → PASS 27 / FAIL 0，exit 0 |
+| D 前端检索未破坏 | **PASS** | 实查 `sb.sh search "满二叉树和完全二叉树区别"` → top1 `debd232c7#c01` / `28.069435` / line 7，与 expected_results.json results[0].top5[0] 六位小数逐字段相等；JS 侧由 parity「满二叉树和完全二叉树区别」PASS 覆盖；佐证：本提交前后 index_export.json 的 postings/df/docs/chunks 全等（仅 meta.generated_at 02:20:46→03:36:39），demo 最长词项仅 17 字符，48 字符规则不改变 demo 行为；test_terms.py 7 passed。现状说明：CLI 尚无 doctor/verify/related（T1–T3 属跑批待做、门禁先行），`sb.sh verify --check` 现阶段 exit 2 属预期，非回归 |
+| E 文档引用 + §6 自洽 | **PASS（附 3 Minor）** | 6 份文档 `records/*.md:行号` 引用 grep 零残留；sample.md :50/:99 改内容型核对、README 分工表同步 t-official r1→r4。§6 外部印证：E:\GLM 实测 510 个 md（≈「约 500」）；全部 md 最长 ASCII 游程实测恰为 **439 字符**，与缺陷叙事精确吻合；3424 块≈7.9 块/篇（demo 8.0）；119.2s/436 篇≈0.27s/篇、p50 59.8ms 对 35× 语料（demo 29.6ms）幅度合理、无夸大；20 万行/155873 去重比 1.28 合理；「修复后零跳过」与 terms 48 上限 + store 128 兜底口径一致 |
+| F 脱敏 | **FAIL（1 Important）** | usage-metrics.md:63 写入真实工作区路径 `E:\GLM`，判据「§6 无路径」被违反，且与同节 :80「没有把任何…文件路径…写进仓库」自相矛盾；`git grep -F GLM` 证实 8a43c757 全仓无此字样，本提交首次引入。站点 src/dist 无个人路径（/home/*、Users、vertin、Lenovo、AppData、E:\GLM 全零匹配）；§6 其余仅统计量，/tmp/sb-real.db 为通用临时路径 |
+| G 红线扫描 | **未触碰** | 15 文件 diff 无凭据值（仅 PAT 变量名，既有）；无破坏性删除/不可逆 git 操作/对外发布；改动全部在 qoder/ 作用域内；两份 index_export.json 仅 generated_at 变化；新增 qoder-prompts.md 为 6 条任务 prompt 原样导出，无敏感信息；上轮复审报告入账属记录归档 |
+
+### 新增问题清单
+
+- **F-1（Important）· usage-metrics.md:63 泄露真实工作区路径 `E:\GLM`**：违反判据 F「§6 只写统计量、无路径」，并与本节 ：80 隐私声明直接矛盾。修复（单行）：改为「本机真实的个人学习工作区（约 500 个 markdown）」。
+- **E-1（Minor）· usage-metrics.md:58 §5 数字未随新用例更新**：仍写「pytest 69 项全绿（引擎 43 + 记忆层 26）」，同提交新增回归用例后应为 70（提交信息自述 70 passed；§6 亦已宣布该用例）。
+- **E-2（Minor）· usage-metrics.md:28-31 §2「可 log --tail 复现」已失效**：实测现库 query_log 仅 1 行（03:36 重置重建后；本人验证检索 = qid 91000001）。「110/140」快照措辞诚实，但「复现」现只能经 committed 留档 records/seekdb-query-record.md（100 条）实现，建议改「留档见 records/…」；「自然模式召回探针与站点对拍又写入 30 条」的归因在库重置后无法对现库复核，按上轮取证（M2 已核数）采信。
+- **E-3（nit）· sample.md:50 核对指引方向有歧义**：「与文件里最新一行的 n_hits 对上」，而记录表明确「按 qid 倒序」——重生成后最新一行是**首行数据**而非文件末行，建议改「qid 最大的一行（表按 qid 倒序，即首行数据）」。
+
+### 销项与范围外提醒
+
+- 上轮 N-A（下游引用失配）/N1（gate_t4 弱化）/N2（gate_t3 编码）/N3（归因措辞）/N4（截图未跟踪）逐条复核：**N-A ADDRESSED**（sample.md 两处 + README 改内容型引用，行号引用全仓零残留）、**N1 ADDRESSED**（link-href 模式补回且实测可命中）、**N2 ADDRESSED**（encoding='utf-8' 已加，实测 exit 0）、**N3 ADDRESSED**（措辞已改中性，归因细节见 E-2 备注）、**N4 ADDRESSED**（screenshots 3 张已随 8a43c757 入库，git ls-files 实证）。
+- 提醒（范围外，不计入判决）：records/seekdb-query-record.md:5 等记录头部仍含 WSL 用户名路径 `/home/vertin/...`——本提交未触碰，系上轮 M1 只对站点脱敏、未覆盖 records/ 目录的遗留面，交付前可斟酌统一。

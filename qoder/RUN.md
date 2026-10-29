@@ -260,5 +260,5 @@ node qoder/site/test/parity.mjs
 
   说明：若 `python3.12 -m venv` 直接报「ensurepip is not available」（系统缺 python3.12-venv 包），`--without-pip` + get-pip 这条路线可绕开，无需安装系统包。
 - **中文检索异常 / 想重建全文索引**：全文索引用 NGRAM 分词器（seekdb 的 SPACE 分词器最小词长 3，切不出中文 2-gram），DDL 在首次 ingest 建库时自动创建；改过分词相关代码后用 `sb ingest --src corpus_demo --reset` 清空全库并重建四表与全文索引，预期输出 `已索引 12 篇文档、96 个块（已清空全库重导）`。
-- **单测自检**：`PYTHONPATH=studybench .venv/bin/python -m pytest studybench/tests -q`，预期 `69 passed`（开发机实录 282s，seekdb 建库较慢属正常）；等价命令 `sb selftest`。
+- **单测自检**：`PYTHONPATH=studybench .venv/bin/python -m pytest studybench/tests -q`，预期 `70 passed`（开发机实录约 4–5 分钟，seekdb 建库较慢属正常）；等价命令 `sb selftest`。
 - **退出码**：0 成功；2 参数/输入错误；3 依赖或数据库错误；4 search 无结果（stdout 仍输出空结果结构）。

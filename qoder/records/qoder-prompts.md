@@ -37,7 +37,7 @@ doctor 逐项检查并打印 [OK]/[FAIL] 与细节：①Python 版本 >=3.12；�
 你在仓库 E:/CodeX/PowerContext-2026 里工作。项目是「学研台 StudyBench」：seekdb 检索 + PowerContext 任务记忆的 Python CLI，代码在 qoder/ 下。先读 qoder/CONTRACTS.md 了解口径。硬约束：只改下面点名的文件；中文注释；不新增第三方依赖；不联网；不执行 git；改完用 bash qoder/scripts/sb.sh 下的命令自测（该脚本会在 WSL 里跑，Windows 侧直接调用即可）。
 
 在站点新增「使用数据」区块。只改：qoder/site/src/index.html、qoder/site/src/styles.css、qoder/site/dist/index.html、qoder/site/dist/styles.css（src 与 dist 必须同步一致）。
-位置：放在「真实运行记录」区之前。内容：5 个统计卡，数字**只许**用这 5 个，逐个原样搬运，不得改写或换算——110 次检索、96 个检索块、29.6 ms 检索 p50、10/10 演示查询命中、69 项自动测试；数字的出处标注写 records/usage-metrics.md。
+位置：放在「真实运行记录」区之前。内容：5 个统计卡，数字**只许**用这 5 个，逐个原样搬运，不得改写或换算——110 次检索、96 个检索块、29.6 ms 检索 p50、10/10 演示查询命中、70 项自动测试；数字的出处标注写 records/usage-metrics.md。
 样式沿用现有 CSS 变量与栅格，375px 不横向滚动；不得引入任何外链资源或新脚本。改完请自己核对 src 与 dist 两份 index.html 的该区块文字一致。
 
 

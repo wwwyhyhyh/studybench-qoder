@@ -47,7 +47,7 @@ top-5 与 `verification/expected_results.json:8-44` 完全一致：
 - `verification/logs/ingest.log`：`已索引 12 篇文档、96 个块`（exit=0）；
 - `verification/logs/index.log`：`文档 12 篇｜块 96 个｜词项 11983 个｜平均块长 372.7`；
 - `verification/logs/search.log:1-29`：本样例查询的完整实录（同文件还含「归并排序为什么稳定」「kruskal为什么要按边权排序」两条实录，top-1 分别为 17.259432 与 28.706917，与 `expected_results.json` 第二、三组一致）；
-- `records/seekdb-query-record.md`：`query_log` 的留档（自动生成，固定取最近 100 条）。**不锁定行号**——每次检索都会追加，文件内容会随使用漂移；核对方法：把你这次 `search` 的「命中数」与文件里最新一行的 `n_hits` 对上即可（qid 单调递增）。
+- `records/seekdb-query-record.md`：`query_log` 的留档（自动生成，固定取最近 100 条，**按 qid 倒序**，最新的一条在最上面）。**不锁定行号**——每次检索都会追加，文件内容会随使用漂移；核对方法：把你这次 `search` 的「命中数」与文件里**第一条数据行**的 `n_hits` 对上即可。
 
 ### 重置方法
 
