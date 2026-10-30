@@ -56,7 +56,7 @@
 
 - 存储后端：`powercontext.builtin.persistence/sqlite`（官方内置关系型后端，非自造格式）。
 - 单测覆盖：任务创建 / 重复创建幂等 / 进度 revision 递增 / 重启后仍可读 / `resume` 读最近 3 版 / 周报四段。
-- 全仓自测：`pytest` **70 项**全绿（引擎 44 + 记忆层 26；`terms.py` 超长词项回归用例新增后由 69→70）。
+- 全仓自测：`pytest` **82 项**全绿（引擎 58 + 记忆层 26：Qoder 跑批新增 doctor/verify/related 三组用例，另含 `terms.py` 超长词项回归）。
 
 ## 6 真实工作区实测（只有统计量，不含任何内容）
 

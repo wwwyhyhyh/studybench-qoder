@@ -42,7 +42,7 @@ qoder/
 ├── RUN.md                  # 干净 Linux 从零跑通手册
 ├── studybench/             # Python 包（requires-python >=3.12）
 │   ├── studybench/         # cli / terms / store / ingest / search / export / evidence / state / tasks / digest
-│   └── tests/              # 70 项单测（引擎 + 记忆层，pytest 9.2.0 全绿）
+│   └── tests/              # 82 项单测（引擎 + 记忆层，pytest 9.2.0 全绿）
 ├── corpus_demo/            # 12 篇脱敏演示语料（7 个课程目录）
 │   ├── _tasks/tasks.json   # 6 个演示任务
 │   └── _queries.json       # 10 条演示查询（含预期命中小节与考察点）

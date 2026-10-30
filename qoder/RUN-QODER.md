@@ -6,7 +6,7 @@
 
 ## 0 现状（先看这个）
 
-- 项目已完整可跑：`qoder/studybench`（引擎 + 记忆层，70 项测试全绿）、`qoder/corpus_demo`（12 篇脱敏语料 / 96 块）、
+- 项目已完整可跑：`qoder/studybench`（引擎 + 记忆层，82 项测试全绿）、`qoder/corpus_demo`（12 篇脱敏语料 / 96 块）、
   `qoder/site/dist`（静态站，浏览器端检索与 Python 同分，parity 27/27）、`qoder/verification`（期望值 + 终端实录）。
 - 已装：Qoder CLI `1.1.81`（`qoder --version` 可验）、WSL venv（pylibseekdb + powercontext[builtin]）。
 - 还缺：**Qoder 登录态** → 没有它，开发跑批与站点发布都动不了。
@@ -93,7 +93,7 @@ bash qoder/scripts/qoder_publish_site.sh --yes      # 真发布 + 设为「任�
 | 运行说明 | `qoder/RUN.md`（干净 Linux 从零跑通） |
 | 验证样例 | `qoder/verification/sample.md` + `expected_results.json` + `logs/` |
 | Qoder 开发记录（截图 + UID） | `qoder/records/qoder-dev-record.md`（§3 由跑批填，§1/§4 你填） |
-| 使用效果材料 | `qoder/records/usage-metrics.md`（110 次检索 / p50 29.6ms / 10-10 命中 / 70 项测试） |
+| 使用效果材料 | `qoder/records/usage-metrics.md`（110 次检索 / p50 29.6ms / 10-10 命中 / 82 项测试） |
 
 ## 5 两个会让验收直接挂掉的坑
 
