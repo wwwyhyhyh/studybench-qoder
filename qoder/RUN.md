@@ -53,12 +53,15 @@ positional arguments:
   command
     ingest    把 markdown 目录索引进 seekdb
     search    检索（结果含 path:line 引用与得分分解）
+    related   相关块推荐（词项重合 + IDF 加权）
     index     索引规模：文档数/块数/词项数/平均块长
     export    导出 index_export.json（契约 §5）
     log       query_log 尾部（使用数据）
     task      任务记忆（PowerContext，契约 §7）
     digest    周报（契约 §8）
     evidence  生成 records 检索/状态记录
+    doctor    环境与数据自检：依赖 / seekdb 库 / 索引 / 演示语料
+    verify    复算 verification/expected_results.json；--check 比对 top-5 顺序与得分
     selftest  运行 pytest（= bash qoder/scripts/sb.sh selftest）
 
 options:
@@ -228,10 +231,10 @@ query_log 行数：3｜任务数：7
 ## ⑨ 站点本地预览
 
 ```bash
-python3 -m http.server 8000 --directory site/dist
+python3 -m http.server 8000 --directory qoder/site/dist
 ```
 
-浏览器打开 `http://127.0.0.1:8000`（实测 `index.html` 与 `data/index_export.json` 均返回 200）。站点纯静态、零外链，断网时直接打开 `site/dist/index.html`（`file://`）也能用。试用区在浏览器内用 `data/index_export.json` 打分；与 Python 侧的一致性在**仓库根**执行下面命令校验（需 Node.js）：
+浏览器打开 `http://127.0.0.1:8000`（实测 `index.html` 与 `data/index_export.json` 均返回 200）。站点纯静态、零外链，断网时直接打开 `qoder/site/dist/index.html`（`file://`）也能用。试用区在浏览器内用 `data/index_export.json` 打分；与 Python 侧的一致性在**仓库根**执行下面命令校验（需 Node.js）：
 
 ```bash
 node qoder/site/test/parity.mjs
@@ -260,5 +263,5 @@ node qoder/site/test/parity.mjs
 
   说明：若 `python3.12 -m venv` 直接报「ensurepip is not available」（系统缺 python3.12-venv 包），`--without-pip` + get-pip 这条路线可绕开，无需安装系统包。
 - **中文检索异常 / 想重建全文索引**：全文索引用 NGRAM 分词器（seekdb 的 SPACE 分词器最小词长 3，切不出中文 2-gram），DDL 在首次 ingest 建库时自动创建；改过分词相关代码后用 `sb ingest --src corpus_demo --reset` 清空全库并重建四表与全文索引，预期输出 `已索引 12 篇文档、96 个块（已清空全库重导）`。
-- **单测自检**：`PYTHONPATH=studybench .venv/bin/python -m pytest studybench/tests -q`，预期 `70 passed`（开发机实录约 4–5 分钟，seekdb 建库较慢属正常）；等价命令 `sb selftest`。
+- **单测自检**：`PYTHONPATH=studybench .venv/bin/python -m pytest studybench/tests -q`，预期 `82 passed`（开发机实录约 4–5 分钟，seekdb 建库较慢属正常）；等价命令 `sb selftest`。
 - **退出码**：0 成功；2 参数/输入错误；3 依赖或数据库错误；4 search 无结果（stdout 仍输出空结果结构）。
