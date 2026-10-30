@@ -59,7 +59,8 @@ echo "$PREP_INPUT"
 if [ "$YES" != 1 ]; then echo; echo "干跑结束。确认无误后加 --yes 真发布。"; exit 0; fi
 
 qoder sites prepare_site --input "$PREP_INPUT" | tee /tmp/sb_prepare.json | head -c 800; echo
-SITE_ID=$(jget result.site.id < /tmp/sb_prepare.json)
+# prepare_site 的返回结构：result.siteId / result.projectId（不是 result.site.id）
+SITE_ID=$(jget result.siteId < /tmp/sb_prepare.json)
 echo "  siteId=${SITE_ID:-（未返回，稍后从 list_sites 取）}"
 
 echo "== 4/5 等草稿就绪 =="
@@ -76,19 +77,20 @@ echo "== 5/5 发布 + 设公开 =="
 qoder sites publish_site --input "{\"actionId\":\"$ACTION\"}" | tee /tmp/sb_publish.json | head -c 800; echo
 
 if [ -z "${SITE_ID:-}" ]; then
+  # list_sites 的结构：result.projects[].site.site_id（display_name 在项目层）
   SITE_ID=$(qoder sites list | python -c "
 import sys,json
 d=json.load(sys.stdin)
-items=(d.get('result') or {}).get('sites') or d.get('result') or []
-for s in items:
-    if isinstance(s,dict) and s.get('displayName')=='$DISPLAY_NAME': print(s.get('id') or s.get('siteId')); break
+for p in (d.get('result') or {}).get('projects') or []:
+    if p.get('display_name')=='$DISPLAY_NAME':
+        print(((p.get('site') or {}).get('site_id')) or ''); break
 ")
 fi
 echo "  siteId=$SITE_ID"
 if [ -n "$SITE_ID" ]; then
   ACC=$(qoder sites get_site_access --input "{\"siteId\":\"$SITE_ID\"}")
   ACCESS_REF=$(printf '%s' "$ACC" | jget result.accessRef)
-  echo "  当前可见性：$(printf '%s' "$ACC" | jget result.mode)"
+  echo "  当前可见性：$(printf '%s' "$ACC" | jget result.policy.mode)"
   if [ -n "$ACCESS_REF" ]; then
     qoder sites update_access_policy --input "$(python -c "
 import json,sys,uuid
@@ -97,6 +99,11 @@ print(json.dumps({'siteId':sys.argv[1],'requestId':str(uuid.uuid4()),'accessRef'
   else
     echo "  ⚠ 未取到 accessRef，请到 Qoder 站点面板手动改可见性为「任何人都可访问」"
   fi
+  HOST=$(qoder sites get_site --input "{\"siteId\":\"$SITE_ID\"}" | python -c "
+import sys,json
+d=json.load(sys.stdin)['result']
+print(((d.get('site') or {}).get('host')) or '')")
+  [ -n "$HOST" ] && echo "  站点地址：https://$HOST/"
 fi
 echo
 echo "完成。用**无痕窗口**打开站点链接核对（未登录也能看）。站点编辑后再发布一次才会生效。"
