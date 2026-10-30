@@ -1,6 +1,6 @@
 """命令行接线（qoder/CONTRACTS.md §6）。
 
-- A 的命令（ingest/search/index/export/log/evidence/selftest）直接实现；
+- A 的命令（ingest/search/index/export/log/evidence/doctor/selftest）直接实现；
 - B 的命令（task/digest）**惰性 import** :mod:`studybench.state` 等，
   检索命令不承担 PowerContext 的导入成本。
 
@@ -298,6 +298,22 @@ def cmd_evidence(args: argparse.Namespace) -> int:
     return EXIT_OK
 
 
+# ---------------------------------------------------------------- doctor
+
+
+def cmd_doctor(args: argparse.Namespace) -> int:
+    from . import doctor
+
+    checks = doctor.check_all(args.db)
+    doctor.report(checks)
+    failed = [check.name for check in checks if not check.ok]
+    if failed:
+        print(f"未通过 {len(failed)} 项：{'、'.join(failed)}", file=sys.stderr)
+        return EXIT_DEPENDENCY
+    print("全部检查通过。")
+    return EXIT_OK
+
+
 # ---------------------------------------------------------------- selftest
 
 
@@ -403,6 +419,10 @@ def build_parser() -> argparse.ArgumentParser:
     evidence.add_argument("--db", default=_default_seekdb(), help="seekdb 库目录")
     evidence.add_argument("--pc-db", default=_default_powercontext(), help="状态库路径")
     evidence.set_defaults(handler=cmd_evidence)
+
+    doctor = sub.add_parser("doctor", help="环境与数据自检：依赖 / seekdb 库 / 索引 / 演示语料")
+    doctor.add_argument("--db", default=_default_seekdb(), help="seekdb 库目录")
+    doctor.set_defaults(handler=cmd_doctor)
 
     selftest = sub.add_parser("selftest", help="运行 pytest（= bash qoder/scripts/sb.sh selftest）")
     selftest.set_defaults(handler=cmd_selftest)
