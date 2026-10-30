@@ -150,7 +150,11 @@ def check_index_stats(db: str) -> Check:
         finally:
             store.close()
     except Exception as error:
-        return _bad("索引统计", f"{_error_detail(error)}")
+        # 表不存在等原始错误对使用者没有行动指引，统一落到「先 ingest」
+        return _bad(
+            "索引统计",
+            f"{_error_detail(error)}——库未初始化或已损坏，先运行 studybench ingest --src qoder/corpus_demo",
+        )
     if stats["chunks"] == 0:
         return _bad("索引统计", "文档 0 篇｜块 0 个｜词项 0 个——先运行 studybench ingest --src qoder/corpus_demo")
     return _ok(
