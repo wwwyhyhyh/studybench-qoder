@@ -1,11 +1,12 @@
 """命令行接线（qoder/CONTRACTS.md §6）。
 
-- A 的命令（ingest/search/index/export/log/evidence/doctor/selftest）直接实现；
+- A 的命令（ingest/search/index/export/log/evidence/doctor/verify/selftest）直接实现；
 - B 的命令（task/digest）**惰性 import** :mod:`studybench.state` 等，
   检索命令不承担 PowerContext 的导入成本。
 
 退出码：0 成功；2 参数/输入错误；3 依赖或数据库错误；4 无结果（search 专用，
-stdout 仍输出空结果结构）。``--json`` 输出单行 JSON。
+stdout 仍输出空结果结构）或 ``verify --check`` 有不一致（打印差异表）。
+``--json`` 输出单行 JSON。
 """
 
 from __future__ import annotations
@@ -20,6 +21,7 @@ EXIT_OK = 0
 EXIT_USAGE = 2
 EXIT_DEPENDENCY = 3
 EXIT_EMPTY = 4
+EXIT_MISMATCH = 4  # verify --check 有差异（与 search 无结果同码，契约外补充）
 
 
 def _default_db(env: str, fallback: str) -> str:
@@ -314,6 +316,44 @@ def cmd_doctor(args: argparse.Namespace) -> int:
     return EXIT_OK
 
 
+# ---------------------------------------------------------------- verify
+
+
+def cmd_verify(args: argparse.Namespace) -> int:
+    from . import verify as verify_mod
+
+    if not args.check:
+        payload = verify_mod.write(
+            args.db, verify_mod.DEFAULT_OUT, verify_mod.DEFAULT_QUERIES
+        )
+        print(
+            f"已写入 {len(payload['results'])} 条查询 → {verify_mod.DEFAULT_OUT}"
+            f"（库 {payload['db']}）"
+        )
+        return EXIT_OK
+
+    try:
+        expected = verify_mod.load(verify_mod.DEFAULT_OUT)
+    except FileNotFoundError:
+        print(
+            f"错误：找不到比对基准 {verify_mod.DEFAULT_OUT}——先运行 studybench verify 生成。",
+            file=sys.stderr,
+        )
+        return EXIT_DEPENDENCY
+    actual = verify_mod.build(args.db, verify_mod.DEFAULT_QUERIES)
+    diffs = verify_mod.diff(expected, actual)
+    if diffs:
+        print(verify_mod.format_diff(diffs))
+        print(
+            f"共 {len(diffs)} 处不一致（比较 {len(actual['results'])} 条查询的"
+            " top-5 chunk_id 顺序与 6 位小数得分）。",
+            file=sys.stderr,
+        )
+        return EXIT_MISMATCH
+    print(f"{len(actual['results'])} 条查询全部一致（top-5 chunk_id 顺序与 6 位小数得分）。")
+    return EXIT_OK
+
+
 # ---------------------------------------------------------------- selftest
 
 
@@ -423,6 +463,16 @@ def build_parser() -> argparse.ArgumentParser:
     doctor = sub.add_parser("doctor", help="环境与数据自检：依赖 / seekdb 库 / 索引 / 演示语料")
     doctor.add_argument("--db", default=_default_seekdb(), help="seekdb 库目录")
     doctor.set_defaults(handler=cmd_doctor)
+
+    verify = sub.add_parser(
+        "verify",
+        help="复算 verification/expected_results.json；--check 比对 top-5 顺序与得分",
+    )
+    verify.add_argument("--db", default=_default_seekdb(), help="seekdb 库目录")
+    verify.add_argument(
+        "--check", action="store_true", help="与现有 expected_results.json 比对（不一致退出 4）"
+    )
+    verify.set_defaults(handler=cmd_verify)
 
     selftest = sub.add_parser("selftest", help="运行 pytest（= bash qoder/scripts/sb.sh selftest）")
     selftest.set_defaults(handler=cmd_selftest)
