@@ -13,10 +13,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 LOGS = ROOT / "verification" / "logs"
 TARGETS = [ROOT / "site" / "src" / "index.html", ROOT / "site" / "dist" / "index.html"]
-REPO_URL = "https://github.com/Castorice104/PowerContext-2026/tree/2026-competition-ecosystem/qoder"
+REPO_URL = "https://github.com/wwwyhyhyh/studybench-qoder"
 REPO_HTML = (
-    f'<a href="{REPO_URL}" rel="noopener">github.com/Castorice104/PowerContext-2026'
-    '<span class="foot-dim">（qoder/ 目录 · 私有仓库，如需访问请联系提交者开通）</span></a>'
+    f'<a href="{REPO_URL}" rel="noopener">github.com/wwwyhyhyh/studybench-qoder'
+    '<span class="foot-dim">（公开仓库 · qoder/ 目录，含完整提交历史与开发记录）</span></a>'
 )
 
 
@@ -91,10 +91,10 @@ def main() -> None:
             flags=re.S,
         )
         new, n2 = re.subn(r"<!-- REPO:REPLACE -->", REPO_HTML, new)
-        # 幂等：占位已被替换过时，改写既有链接文案
+        # 幂等：占位已被替换过时，改写既有链接文案（匹配任意 github 仓库链接）
         if n2 == 0:
             new, n2 = re.subn(
-                r'<a href="' + re.escape(REPO_URL) + r'" rel="noopener">.*?</a>', REPO_HTML, new, flags=re.S
+                r'<a href="https://github\.com/[^"]+" rel="noopener">.*?</a>', REPO_HTML, new, flags=re.S
             )
         target.write_text(new, encoding="utf-8")
         print(f"{target.relative_to(ROOT)}: logs={n1} repo={n2}")
