@@ -48,13 +48,34 @@ PY
 [ -z "$(grep -o '<!-- REPO:REPLACE -->' "$WEB_DIR/index.html")" ] || echo "  ⚠ 站点里还有 REPO:REPLACE 占位未注入"
 
 ACTION=$(uuid)
+# 已发布过的站点：必须显式带上 projectId，否则 prepare_site 报 sites_conflict。
+# projectId 从 list_sites 里按 display_name 取；取不到就是首次发布，不带该字段。
+EXISTING_PROJECT=$(qoder sites list 2>/dev/null | python -c "
+import sys,json
+try:
+    d=json.load(sys.stdin)
+except Exception:
+    print(''); raise SystemExit
+for p in (d.get('result') or {}).get('projects') or []:
+    if p.get('display_name')=='$DISPLAY_NAME':
+        print(p.get('project_id') or ''); break
+" 2>/dev/null || echo "")
+if [ -n "$EXISTING_PROJECT" ]; then
+  echo "== 已存在站点，projectId=$EXISTING_PROJECT（本次为更新）=="
+else
+  echo "== 首次发布（无既有 projectId）=="
+fi
+
 echo "== 3/5 打包草稿（actionId=$ACTION）=="
 PREP_INPUT=$(python -c "
 import json,sys
-print(json.dumps({
+payload={
   'actionId': sys.argv[1], 'projectRoot': sys.argv[2], 'webDirectory': sys.argv[3],
   'displayName': sys.argv[4], 'slug': sys.argv[5], 'spa': False, 'databaseAccess': 'none',
-}, ensure_ascii=False))" "$ACTION" "$PROJECT_ROOT" "$WEB_DIR" "$DISPLAY_NAME" "$SLUG")
+}
+if sys.argv[6]:
+    payload['projectId']=sys.argv[6]
+print(json.dumps(payload, ensure_ascii=False))" "$ACTION" "$PROJECT_ROOT" "$WEB_DIR" "$DISPLAY_NAME" "$SLUG" "$EXISTING_PROJECT")
 echo "$PREP_INPUT"
 if [ "$YES" != 1 ]; then echo; echo "干跑结束。确认无误后加 --yes 真发布。"; exit 0; fi
 

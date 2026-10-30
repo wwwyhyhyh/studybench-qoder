@@ -51,7 +51,7 @@ CLI 命令表、导出 JSON、验收清单），再让 Qoder 在仓库内按任�
 | 站点试用区真实检索 | `records/screenshots/site-tryit.png`（top-1 得分 36.193389，与 CLI 同分） |
 | Qoder CLI 会话（`qoder -p` 执行中） | <!-- 待填：跑批时截 2–3 张，放 records/screenshots/ --> |
 | Qoder 站点面板（发布成功状态） | <!-- 待填 --> |
-| 站点公开访问（无痕窗口） | <!-- 待填 --> |
+| 站点公开访问（无痕窗口） | 已验证：https://studybench-e1bvhnt3g1g.qoder.website/ 匿名可访问（curl 无凭据 http=200，`data/index_export.json` 813171 字节可下，试用区检索命中 19/96 块、top-1 得分 36.193389） |
 
 > 说明：CLI 跑批的**文本级证据**（prompt + JSON 响应 + 提交 diff）已在 §3 与 `records/qoder-logs/`；
 > 截图是评审侧的补充观感证据，不替代日志。

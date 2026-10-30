@@ -26,7 +26,7 @@
 
 | 材料 | 位置 |
 | --- | --- |
-| 站点 URL | <!-- 发布后回填 --> 发布命令：`bash qoder/scripts/qoder_publish_site.sh --yes`（发布目录 `qoder/site/dist/`） |
+| 站点 URL | **https://studybench-e1bvhnt3g1g.qoder.website/**（已发布，访问范围=任何人可访问；发布目录 `qoder/site/dist/`，重发命令 `bash qoder/scripts/qoder_publish_site.sh --yes`） |
 | 代码仓库 | 本仓库 `2026-competition-ecosystem` 分支的 `qoder/` 目录（团队私有 → **提交前须对评委开放**，见 RUN-QODER.md §5） |
 | 运行说明 | [RUN.md](RUN.md)（干净 Linux 从零跑通，全部命令实跑核对） |
 | 验证样例 | [verification/sample.md](verification/sample.md)（配 `verification/expected_results.json` 与 `verification/logs/`） |
