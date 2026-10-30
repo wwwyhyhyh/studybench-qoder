@@ -1,0 +1,71 @@
+diff --git a/qoder/RUN.md b/qoder/RUN.md
+index b2329740..138da3be 100644
+--- a/qoder/RUN.md
++++ b/qoder/RUN.md
+@@ -53,12 +53,15 @@ positional arguments:
+   command
+     ingest    把 markdown 目录索引进 seekdb
+     search    检索（结果含 path:line 引用与得分分解）
++    related   相关块推荐（词项重合 + IDF 加权）
+     index     索引规模：文档数/块数/词项数/平均块长
+     export    导出 index_export.json（契约 §5）
+     log       query_log 尾部（使用数据）
+     task      任务记忆（PowerContext，契约 §7）
+     digest    周报（契约 §8）
+     evidence  生成 records 检索/状态记录
++    doctor    环境与数据自检：依赖 / seekdb 库 / 索引 / 演示语料
++    verify    复算 verification/expected_results.json；--check 比对 top-5 顺序与得分
+     selftest  运行 pytest（= bash qoder/scripts/sb.sh selftest）
+ 
+ options:
+@@ -228,10 +231,10 @@ query_log 行数：3｜任务数：7
+ ## ⑨ 站点本地预览
+ 
+ ```bash
+-python3 -m http.server 8000 --directory site/dist
++python3 -m http.server 8000 --directory qoder/site/dist
+ ```
+ 
+-浏览器打开 `http://127.0.0.1:8000`（实测 `index.html` 与 `data/index_export.json` 均返回 200）。站点纯静态、零外链，断网时直接打开 `site/dist/index.html`（`file://`）也能用。试用区在浏览器内用 `data/index_export.json` 打分；与 Python 侧的一致性在**仓库根**执行下面命令校验（需 Node.js）：
++浏览器打开 `http://127.0.0.1:8000`（实测 `index.html` 与 `data/index_export.json` 均返回 200）。站点纯静态、零外链，断网时直接打开 `qoder/site/dist/index.html`（`file://`）也能用。试用区在浏览器内用 `data/index_export.json` 打分；与 Python 侧的一致性在**仓库根**执行下面命令校验（需 Node.js）：
+ 
+ ```bash
+ node qoder/site/test/parity.mjs
+@@ -260,5 +263,5 @@ node qoder/site/test/parity.mjs
+ 
+   说明：若 `python3.12 -m venv` 直接报「ensurepip is not available」（系统缺 python3.12-venv 包），`--without-pip` + get-pip 这条路线可绕开，无需安装系统包。
+ - **中文检索异常 / 想重建全文索引**：全文索引用 NGRAM 分词器（seekdb 的 SPACE 分词器最小词长 3，切不出中文 2-gram），DDL 在首次 ingest 建库时自动创建；改过分词相关代码后用 `sb ingest --src corpus_demo --reset` 清空全库并重建四表与全文索引，预期输出 `已索引 12 篇文档、96 个块（已清空全库重导）`。
+-- **单测自检**：`PYTHONPATH=studybench .venv/bin/python -m pytest studybench/tests -q`，预期 `70 passed`（开发机实录约 4–5 分钟，seekdb 建库较慢属正常）；等价命令 `sb selftest`。
++- **单测自检**：`PYTHONPATH=studybench .venv/bin/python -m pytest studybench/tests -q`，预期 `82 passed`（开发机实录约 4–5 分钟，seekdb 建库较慢属正常）；等价命令 `sb selftest`。
+ - **退出码**：0 成功；2 参数/输入错误；3 依赖或数据库错误；4 search 无结果（stdout 仍输出空结果结构）。
+diff --git a/qoder/records/qoder-logs/summary.md b/qoder/records/qoder-logs/summary.md
+index c5b507c0..1ddd39d3 100644
+--- a/qoder/records/qoder-logs/summary.md
++++ b/qoder/records/qoder-logs/summary.md
+@@ -6,3 +6,9 @@
+ | T1 | studybench doctor 自检子命令 | model=? tokens=? | 461s | qoder/studybench/studybench/cli.py qoder/records/qoder-logs/ qoder/studybench/studybench/doctor.py qoder/studybench/tests/test_doctor.py  | PASS | b7d99c69 |
+ | T2 | studybench verify 期望值校验子命令 | model=? tokens=? | 206s | qoder/records/qoder-logs/summary.md qoder/studybench/studybench/cli.py qoder/records/qoder-logs/T2.jsonl qoder/studybench/studybench/verify.py qoder/studybench/tests/test_verify.py  | PASS | 2dc1e6f8 |
+ | T3 | 相关笔记推荐 related 子命令 | model=? tokens=? | 137s | qoder/records/qoder-logs/summary.md qoder/studybench/studybench/cli.py qoder/records/qoder-logs/T3.jsonl qoder/studybench/studybench/related.py qoder/studybench/tests/test_related.py  | PASS | 3184861f |
++| T4 | 站点新增使用数据区 | model=? tokens=? | 99s | qoder/records/qoder-logs/summary.md qoder/site/dist/index.html qoder/site/dist/styles.css qoder/site/src/index.html qoder/site/src/styles.css qoder/records/qoder-logs/T4.jsonl  | PASS | edb5739e |
++
++## 跑批记录（20261030-131101，qoder 1.1.81）
++
++| # | 任务 | 元数据 | 耗时 | 改动 | 门禁 | 提交 |
++| --- | --- | --- | --- | --- | --- | --- |
+diff --git a/qoder/scripts/qoder_dev_batch.sh b/qoder/scripts/qoder_dev_batch.sh
+index c21da462..5ac6f898 100644
+--- a/qoder/scripts/qoder_dev_batch.sh
++++ b/qoder/scripts/qoder_dev_batch.sh
+@@ -50,8 +50,10 @@ gate_t4() {
+ }
+ 
+ gate_t5() {
+-  test "$(wc -c < qoder/records/qoder-review.md 2>/dev/null || echo 0)" -ge 2500 || return 1
+-  grep -q 'qoder/studybench/studybench/search.py' qoder/records/qoder-review.md
++  local f=qoder/records/qoder-review.md
++  test "$(wc -c < "$f" 2>/dev/null || echo 0)" -ge 2500 || return 1
++  # 覆盖核心模块即可；短名（store.py）与全路径两种写法都认
++  grep -Eq "store\.py" "$f" && grep -Eq "search\.py" "$f" && grep -Eq "state\.py" "$f"
+ }
+ 
+ gate_t6() { ! test -n "$(git diff --name-only | grep -v '^qoder/RUN.md$')"; }
