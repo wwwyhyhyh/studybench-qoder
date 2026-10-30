@@ -113,6 +113,42 @@ def cmd_search(args: argparse.Namespace) -> int:
     return EXIT_EMPTY if outcome.n_hits == 0 else EXIT_OK
 
 
+# ---------------------------------------------------------------- related
+
+
+def cmd_related(args: argparse.Namespace) -> int:
+    from . import related as related_mod
+
+    if args.top < 1:
+        raise ValueError(f"--top 需要 ≥ 1，得到 {args.top}")
+
+    outcome = related_mod.related(args.db, args.chunk)
+    if args.json:
+        _json_line(outcome.as_dict(top=args.top))
+    else:
+        if not outcome.terms:
+            print("源块无可检索词项")
+        elif outcome.n_hits == 0:
+            print(
+                f"无相关块（源块 {outcome.chunk}，库 {outcome.n_chunks} 块，"
+                f"耗时 {outcome.elapsed_ms} ms）"
+            )
+        else:
+            print(
+                f"共 {outcome.n_hits} 条相关块，显示前 {min(args.top, outcome.n_hits)} 条"
+                f"（耗时 {outcome.elapsed_ms} ms，库 {outcome.n_chunks} 块）"
+            )
+            for rank, hit in enumerate(outcome.hits[: args.top], start=1):
+                print()
+                print(f"{rank}. [{hit.score:.6f}] {hit.path}:{hit.line_start}")
+                print(f"   小节：{hit.heading}")
+                breakdown = " + ".join(
+                    f"{term}({value:.6f})" for term, value in hit.score_parts
+                )
+                print(f"   公共词项：{breakdown}")
+    return EXIT_EMPTY if outcome.n_hits == 0 else EXIT_OK
+
+
 # ---------------------------------------------------------------- index
 
 
@@ -396,6 +432,13 @@ def build_parser() -> argparse.ArgumentParser:
     search.add_argument("--top", type=int, default=10, help="显示前 N 条（默认 10）")
     search.add_argument("--json", action="store_true", help="输出单行 JSON")
     search.set_defaults(handler=cmd_search)
+
+    related = sub.add_parser("related", help="相关块推荐（词项重合 + IDF 加权）")
+    related.add_argument("--chunk", required=True, help="源块 chunk_id")
+    related.add_argument("--db", default=_default_seekdb(), help="seekdb 库目录")
+    related.add_argument("--top", type=int, default=5, help="显示前 N 条（默认 5）")
+    related.add_argument("--json", action="store_true", help="输出单行 JSON")
+    related.set_defaults(handler=cmd_related)
 
     index = sub.add_parser("index", help="索引规模：文档数/块数/词项数/平均块长")
     index.add_argument("--db", default=_default_seekdb(), help="seekdb 库目录")
