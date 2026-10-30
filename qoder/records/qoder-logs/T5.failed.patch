@@ -1,0 +1,9 @@
+diff --git a/qoder/records/qoder-logs/summary.md b/qoder/records/qoder-logs/summary.md
+index c5b507c0..e43518af 100644
+--- a/qoder/records/qoder-logs/summary.md
++++ b/qoder/records/qoder-logs/summary.md
+@@ -6,3 +6,4 @@
+ | T1 | studybench doctor 自检子命令 | model=? tokens=? | 461s | qoder/studybench/studybench/cli.py qoder/records/qoder-logs/ qoder/studybench/studybench/doctor.py qoder/studybench/tests/test_doctor.py  | PASS | b7d99c69 |
+ | T2 | studybench verify 期望值校验子命令 | model=? tokens=? | 206s | qoder/records/qoder-logs/summary.md qoder/studybench/studybench/cli.py qoder/records/qoder-logs/T2.jsonl qoder/studybench/studybench/verify.py qoder/studybench/tests/test_verify.py  | PASS | 2dc1e6f8 |
+ | T3 | 相关笔记推荐 related 子命令 | model=? tokens=? | 137s | qoder/records/qoder-logs/summary.md qoder/studybench/studybench/cli.py qoder/records/qoder-logs/T3.jsonl qoder/studybench/studybench/related.py qoder/studybench/tests/test_related.py  | PASS | 3184861f |
++| T4 | 站点新增使用数据区 | model=? tokens=? | 99s | qoder/records/qoder-logs/summary.md qoder/site/dist/index.html qoder/site/dist/styles.css qoder/site/src/index.html qoder/site/src/styles.css qoder/records/qoder-logs/T4.jsonl  | PASS | edb5739e |

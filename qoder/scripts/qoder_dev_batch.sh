@@ -50,8 +50,10 @@ gate_t4() {
 }
 
 gate_t5() {
-  test "$(wc -c < qoder/records/qoder-review.md 2>/dev/null || echo 0)" -ge 2500 || return 1
-  grep -q 'qoder/studybench/studybench/search.py' qoder/records/qoder-review.md
+  local f=qoder/records/qoder-review.md
+  test "$(wc -c < "$f" 2>/dev/null || echo 0)" -ge 2500 || return 1
+  # 覆盖核心模块即可；短名（store.py）与全路径两种写法都认
+  grep -Eq "store\.py" "$f" && grep -Eq "search\.py" "$f" && grep -Eq "state\.py" "$f"
 }
 
 gate_t6() { ! test -n "$(git diff --name-only | grep -v '^qoder/RUN.md$')"; }
