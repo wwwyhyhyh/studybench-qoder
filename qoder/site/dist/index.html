@@ -166,7 +166,41 @@
       </div>
     </section>
 
-    <!-- 6 · 真实运行记录（占位，主控注入） -->
+    <!-- 6 · 使用数据（数字出处：records/usage-metrics.md） -->
+    <section class="section" id="usage">
+      <div class="wrap">
+        <p class="kicker">使用数据 · Usage</p>
+        <h2>真实使用，不是估算</h2>
+        <p class="trial-lede">
+          以下数字为命令自动采集的快照，逐个原样搬运，不做换算或外推；出处与复现命令见
+          <code>records/usage-metrics.md</code>。
+        </p>
+        <div class="usage-grid">
+          <div class="usage-card">
+            <p class="usage-value">110 次<span class="usage-unit">检索</span></p>
+            <p class="usage-desc">query_log 累计快照</p>
+          </div>
+          <div class="usage-card">
+            <p class="usage-value">96 个<span class="usage-unit">检索块</span></p>
+            <p class="usage-desc">演示语料的二级小节</p>
+          </div>
+          <div class="usage-card">
+            <p class="usage-value">29.6 ms<span class="usage-unit"> 检索 p50</span></p>
+            <p class="usage-desc">同一进程内，不含冷启动</p>
+          </div>
+          <div class="usage-card">
+            <p class="usage-value">10/10<span class="usage-unit"> 演示查询命中</span></p>
+            <p class="usage-desc">预期小节均被召回</p>
+          </div>
+          <div class="usage-card">
+            <p class="usage-value">69 项<span class="usage-unit">自动测试</span></p>
+            <p class="usage-desc">引擎与记忆层单测全绿</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 · 真实运行记录（占位，主控注入） -->
     <section class="section" id="logs">
       <div class="wrap">
         <p class="kicker">真实运行记录 · Logs</p>
@@ -250,7 +284,7 @@ $ bash qoder/scripts/sb.sh export --out /mnt/e/CodeX/PowerContext-2026/qoder/rec
       </div>
     </section>
 
-    <!-- 7 · 架构图（内联 SVG，配色跟随深色主题） -->
+    <!-- 8 · 架构图（内联 SVG，配色跟随深色主题） -->
     <section class="section" id="arch">
       <div class="wrap">
         <p class="kicker">架构 · Architecture</p>
@@ -300,7 +334,7 @@ $ bash qoder/scripts/sb.sh export --out /mnt/e/CodeX/PowerContext-2026/qoder/rec
     </section>
   </main>
 
-  <!-- 8 · 页脚 -->
+  <!-- 9 · 页脚 -->
   <footer class="site-foot">
     <div class="wrap">
       <p class="foot-brand">学研台 StudyBench</p>
