@@ -8,7 +8,7 @@
 
 | 项 | 值 |
 | --- | --- |
-| Qoder 账号 UID | <!-- 待填：Qoder 客户端 设置 → 个人资料，或 qoder.com 账号页 --> |
+| Qoder 账号 UID | `01a189fa-14c8-7b47-a3eb-13391856b811`（取自 `qoder status` 输出的账号头像路径 `qoder.com/users/<uid>/`；**提交前请在 Qoder 客户端「设置 → 个人资料」核对一次**） |
 | 登录账号 | Veritas Vertin（qoder.com 国际版，个人版；2026-10-30 `qoder login` 浏览器授权） |
 | 账号类型 | 个人版（比赛要求：企业/团队账号的站点无法公开访问） |
 | 工具形态 | **Qoder CLI**（赛题允许的「Qoder 开发」形态之一），IDE 可用同一账号登录复核 |
